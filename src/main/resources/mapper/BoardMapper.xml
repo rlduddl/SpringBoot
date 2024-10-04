@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.BoardMapper">
+
+	<!-- insert -->
+	<insert
+	 	id="insertBoard" 
+	 	parameterType="com.example.demo.vo.BoardVO" 
+	 	useGeneratedKeys="true" 
+	 	keyColumn="idx" 
+	 	keyProperty="idx"
+	>
+	INSERT INTO BOARD (
+			CATE
+			, TITLE
+			, CONTENT
+			, REGID
+			, UPDID
+		) VALUES (
+			#{cate}
+			, #{title}
+			, #{content}
+			, #{regID}
+			, #{updID}
+		)
+	</insert>
+	
+	<!-- R: select -->
+	
+	<select id="selectList" parameterType="com.example.demo.vo.BoardVO" resultType="com.example.demo.vo.BoardVO">
+		SELECT * FROM BOARD
+		<where>
+			<if test="idx != '' and !idx.equals('')">
+			AND idx = #{idx} 
+			</if>
+			<if test="cate != '' and !cate.equals('')">
+			AND cate = #{cate} 
+			</if>
+			<if test="title != '' and !title.equals('')">
+			AND title = #{title}
+			</if>
+			<if test="regID != '' and !regID.equals('')">
+			AND regID = #{regID}
+			</if>
+		</where>
+	</select>
+	
+	<!-- U: update -->
+	<update id="update" parameterType="com.example.demo.vo.BoardVO">
+		UPDATE BOARD  
+			<set>
+				<if test="title != '' and !title.equals('')">
+					, TITLE		= #{title}
+				</if>
+				<if test="content != '' and !content.equals('')">
+					, CONTENT	= #{content}
+				</if>
+			</set>
+		WHERE idx = #{idx}
+		,cate = #{cate}
+	</update>
+	<delete 
+		id="deleteBoard" 
+		parameterType="com.example.demo.vo.BoardVO" 
+	>
+	
+	DELETE FROM BOARD
+	WHERE idx = #{idx}
+	</delete>
+</mapper>
