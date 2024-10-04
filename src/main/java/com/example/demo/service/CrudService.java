@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.util.List;
 
-import com.example.demo.vo.BoardVO;
 import com.example.demo.vo.MemberVO;
 
 public interface CrudService<E> {
@@ -16,7 +15,5 @@ public interface CrudService<E> {
 	void update(E e);
 	
 	void delete(E e);
-
-	
 	
 }

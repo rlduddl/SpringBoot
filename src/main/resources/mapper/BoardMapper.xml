@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.BoardMapper">
 
-	<!-- insert -->
-	<insert
-	 	id="insertBoard" 
-	 	parameterType="com.example.demo.vo.BoardVO" 
-	 	useGeneratedKeys="true" 
-	 	keyColumn="idx" 
-	 	keyProperty="idx"
+	<!-- C: insert -->
+	<insert 
+		id="insertBoard" 
+		parameterType="com.example.demo.vo.BoardVO"
+		useGeneratedKeys="true"
+		keyColumn="idx"
+		keyProperty="idx"
 	>
 	INSERT INTO BOARD (
 			CATE
@@ -21,50 +21,49 @@
 			, #{title}
 			, #{content}
 			, #{regID}
-			, #{updID}
+			, #{regID}
 		)
 	</insert>
 	
-	<!-- R: select -->
-	
+	<!-- R: select list -->
 	<select id="selectList" parameterType="com.example.demo.vo.BoardVO" resultType="com.example.demo.vo.BoardVO">
-		SELECT * FROM BOARD
+		SELECT * FROM BOARD 
 		<where>
-			<if test="idx != '' and !idx.equals('')">
-			AND idx = #{idx} 
-			</if>
 			<if test="cate != '' and !cate.equals('')">
-			AND cate = #{cate} 
+				and CATE = #{cate}
 			</if>
 			<if test="title != '' and !title.equals('')">
-			AND title = #{title}
-			</if>
-			<if test="regID != '' and !regID.equals('')">
-			AND regID = #{regID}
+				and TITLE LIKE '%' || #{title} || '%'
 			</if>
 		</where>
 	</select>
 	
+	<select id="selectOne" parameterType="Long" resultType="com.example.demo.vo.BoardVO">
+		SELECT * FROM BOARD WHERE IDX = #{idx}
+	</select>
+	
 	<!-- U: update -->
 	<update id="update" parameterType="com.example.demo.vo.BoardVO">
-		UPDATE BOARD  
-			<set>
-				<if test="title != '' and !title.equals('')">
-					, TITLE		= #{title}
-				</if>
-				<if test="content != '' and !content.equals('')">
-					, CONTENT	= #{content}
-				</if>
-			</set>
-		WHERE idx = #{idx}
-		,cate = #{cate}
+		UPDATE BOARD 
+		<set>
+			<if test="cate != '' and !cate.equals('')">
+				, cate = #{cate}
+			</if>
+			<if test="title != '' and !title.equals('')">
+				, title = #{title}
+			</if>
+			<if test="content != '' and !content.equals('')">
+				, content = #{content}
+			</if>
+		</set>
+		, updID = #{updID}
+		, updDATE = SYSDATE
+		WHERE IDX = #{idx}
 	</update>
-	<delete 
-		id="deleteBoard" 
-		parameterType="com.example.demo.vo.BoardVO" 
-	>
 	
-	DELETE FROM BOARD
-	WHERE idx = #{idx}
+	<!-- D: delete -->
+	<delete id="delete" parameterType="Long">
+		DELETE FROM MEMBER WHERE IDX = #{idx}
 	</delete>
+
 </mapper>

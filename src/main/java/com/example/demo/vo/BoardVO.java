@@ -18,8 +18,8 @@ import lombok.ToString;
 //모든 맴버 변수를 파라미터로하는 컨스트럭터 생성
 //@AllArgsConstructor
 public class BoardVO {
-	private int idx;
-	private int cate; // 1000 : 공지사항게시판, 2000 : 자유게시판, 3000 : 갤러리게시판, 4000 : 뉴스게시판
+	private Long idx;
+	private Long cate; // 1000 : 공지사항, 2000 : 자유게시판, 3000 : 갤러리게시판
 	private String title;
 	private String content;
 	private String regID;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.vo.MemberVO;
 
+// DAO, MAPPER
 @Repository
 public class MemberMapper {
 	

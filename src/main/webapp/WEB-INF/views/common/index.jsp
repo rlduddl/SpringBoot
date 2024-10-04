@@ -13,7 +13,6 @@
 	<c:choose>
 		<c:when test="${memberInfo != null}">
 			<a href="/member/logout">로그아웃</a>
-			<a href="/member/myInfo">내정보수정</a>
 		</c:when>
 		<c:otherwise>
 			<a href="/member/login">로그인</a>
