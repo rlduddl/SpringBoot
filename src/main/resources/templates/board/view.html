@@ -11,23 +11,22 @@
 	<header th:replace="~{fragments/header :: header}"></header>
 	
 	<main>
-		<table>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>분류</th>
-					<th>제목</th>
-					<th>등록자ID</th>
-					<th>등록일</th>
-				</tr>
-			</thead>
-			<tbody id="tbody"></tbody> <!-- 게시물 리스트를 표시할 요소 -->
-		</table>
+		<li id="idx"></li>
+		<li id="cate"></li>
+		<li id="title"></li>
+		<li id="content"></li>
+		<li id="regID"></li>
+		<li id="regDate"></li>
+		
+		<a href="/board/list2">목록</a>
+		<button type="button">수정</button>
+		<button type="button">삭제</button>
 	</main>
+
 	
 	<footer th:replace="~{fragments/footer :: footer}"></footer>
 	
-	<script>
+	<script th:inline="javascript">
 		
 		function cateToStr(cate) {
 			switch (cate) {
@@ -41,28 +40,23 @@
 		}
 		
 		
-		axios.get('http://localhost:8111/api/board/list?cate=&title=')
+		const idx = [[${idx}]];
+			
+		// axios를 이용해서 해당 게시물을 불러오고 html에 출력한다.
+		
+		axios.get('http://localhost:8111/api/board/view/' + idx)
 			.then((response) => {
 				console.log(response);
 				// 응답 받은 JSON에서 data 만 추출
 				const { data } = response;
-				// data를 loop 돌려서 html을 생성한다.
-				let html = '';
-				data.forEach(item => {
-					console.log(item);
-					html += `
-						<tr>
-							<td>${item.idx}</td>
-							<td>${cateToStr(item.cate)}</td>
-							<td><a href="/board/view/${item.idx}">${item.title}</a></td>
-							<td>${item.regID}</td>
-							<td>${item.regDate}</td>
-						</tr>
-					`;
-				});
+			
 				
-				document.querySelector('#tbody').innerHTML = html;
-																
+				document.querySelector('#idx').textContent = data.idx;
+				document.querySelector('#cate').textContent = cateToStr(data.cate); 
+				document.querySelector('#title').textContent = data.title;
+				document.querySelector('#content').textContent = data.content;
+				document.querySelector('#regID').textContent = data.regID;
+				document.querySelector('#regDate').textContent = data.regDate;
 			})
 			.catch((error) => {
 				console.log(error);
@@ -70,8 +64,11 @@
 			.finally(() => {
 				console.log('done');
 			});
-
+				
+															
+		
 	</script>
+
 	
 	
 </body>
