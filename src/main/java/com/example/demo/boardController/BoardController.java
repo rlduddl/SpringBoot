@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.vo.BoardVO;
 import com.example.demo.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -65,8 +67,27 @@ public class BoardController {
 		return "board/view";
 	}
 	
+	/**
+	 * 게시물 작성 페이지
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/write")
+	public String boardWrite(Model model) {
+		BoardVO boardVO = new BoardVO();
+		model.addAttribute("boardVO", boardVO);
+		return "board/write";
+	}
 	
-	
-	
+	/**
+	 * 게시물 수정 페이지
+	 * @param model
+	 * @param idx
+	 * @return
+	 */
+	@GetMapping("/modify")
+	public String boardModify(Model model, @RequestParam(value = "idx", required = true, defaultValue = "") Long idx) {
+		return "board/modify";
+	}
 	
 }

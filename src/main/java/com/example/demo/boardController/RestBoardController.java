@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.mapper.BoardMapper;
+import com.example.demo.payload.response.ApiResponse;
 import com.example.demo.service.impl.BoardServiceImpl;
 import com.example.demo.vo.BoardVO;
+import com.example.demo.vo.MemberVO;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,10 +56,10 @@ public class RestBoardController {
 	 */
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertBoard(
-			@RequestBody BoardVO boardVO
+			@RequestBody BoardVO boardVO,
+			HttpServletRequest request
 			){
-		boardService.insert(boardVO);
-		return ResponseEntity.ok(true);
+		return ResponseEntity.ok(boardService.insertBoard(boardVO, request));
 	}
 	
 	/**
@@ -86,7 +90,7 @@ public class RestBoardController {
 	@PutMapping("/update")
 	public ResponseEntity<?> boardUpdate(@RequestBody BoardVO boardVO) {
 		boardService.update(boardVO);
-		return ResponseEntity.ok(true);
+		return ResponseEntity.ok(new ApiResponse(true, "수정되었습니다.") );
 	}
 	
 	/**
@@ -97,7 +101,7 @@ public class RestBoardController {
 	@DeleteMapping("/delete/{idx}")
 	public ResponseEntity<?> boardDelete(@PathVariable Long idx) {
 		boardService.delete(idx);
-		return ResponseEntity.ok(true);
+		return ResponseEntity.ok(new ApiResponse(true, "삭제되었습니다."));
 	}
 	
 
