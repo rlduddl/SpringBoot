@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title></title>
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/axios.min.js}"></script>
+</head>
+<body>
+	<header th:replace="~{fragments/header :: header}"></header>
+	
+	<main>
+		<h2 id="title"></h2>
+		<p id="regDate"></p>
+		<p id="regID"></p>
+		<p id="content"></p>
+		
+		<a href="/board/list">목록</a>
+		<a th:href="@{/board/modify(idx=${idx})}">수정</a>
+		<button type="button">삭제</button>
+	</main>
+	
+	
+	<footer th:replace="~{fragments/footer :: footer}"></footer>
+	
+	<script th:inline="javascript">
+		const idx = /*[[${idx}]]*/
+		
+		// axios를 이용해서 해당 게시물을 불러오고 html에 출력한다.
+		axios.get(`/api/board/view/${idx}`)
+		.then(res => {
+			const {data} = res;
+			console.table(data);
+			document.querySelector('#title').innerHTML = data.title;
+			document.querySelector('#regID').innerHTML = data.regID;
+			document.querySelector('#regDate').innerHTML = data.regDate;
+			document.querySelector('#content').innerHTML = data.content;
+		})
+		
+	</script>
+</body>
+</html>
