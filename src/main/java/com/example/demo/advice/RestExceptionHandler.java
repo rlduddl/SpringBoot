@@ -1,6 +1,5 @@
 package com.example.demo.advice;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +37,4 @@ public class RestExceptionHandler {
 	public ApiResponse handleNotFoundException(NotFoundException ex, WebRequest request) {
 		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), getPathFromWebRequest(request));
 	}
-	
-	
 }

@@ -31,14 +31,14 @@
 	<select id="selectList" parameterType="com.example.demo.vo.BoardVO" resultType="com.example.demo.vo.BoardVO">
 		SELECT * FROM BOARD 
 		<where>
-			<if test="cate != '' and !cate.equals('')">
+			<if test="cate != null">
 				and CATE = #{cate}
 			</if>
 			<if test="title != '' and !title.equals('')">
 				and TITLE LIKE '%' || #{title} || '%'
 			</if>
 		</where>
-		ORDER BY REGDATE DESC
+		ORDER BY idx DESC
 	</select>
 	
 	<select id="selectOne" parameterType="Long" resultType="com.example.demo.vo.BoardVO">
@@ -59,8 +59,8 @@
 				, content = #{content}
 			</if>
 		</set>
-		, updID = #{updID}
-		, updDATE = SYSDATE
+		updID = #{updID},
+		updDATE = SYSDATE
 		WHERE IDX = #{idx}
 	</update>
 	

@@ -30,6 +30,9 @@ public class BoardVO {
 	private String updID;
 	private LocalDateTime updDate;
 	private Long fileMstId;
+
+	
+
 	
 	
 	

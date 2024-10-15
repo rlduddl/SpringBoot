@@ -10,12 +10,15 @@
 	
 	<header th:replace="~{fragments/header :: header}"></header>
 	
+<<<<<<< HEAD
 	<style>
 		table {
 			width: 100%;
 		}
 	</style>
 	
+=======
+>>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 	<main>
 		<table>
 			<thead>
@@ -27,7 +30,11 @@
 					<th>등록일</th>
 				</tr>
 			</thead>
+<<<<<<< HEAD
 			<tbody id="tbody"></tbody>
+=======
+			<tbody id="tbody"></tbody> <!-- 게시물 리스트를 표시할 요소 -->
+>>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 		</table>
 	</main>
 	
@@ -35,6 +42,7 @@
 	
 	<script>
 		
+<<<<<<< HEAD
 	function cateToStr(cate) {
 		switch (cate) {
 			case 1000:
@@ -73,6 +81,50 @@
 			console.log('done');
 		});
 		
+=======
+		function cateToStr(cate) {
+			switch (cate) {
+				case 1000:
+					return "공지사항";
+				case 2000:
+					return "자유게시판";
+				case 3000:
+					return "갤러리게시판";
+			}
+		}
+		
+		
+		axios.get('http://localhost:8111/api/board/list?cate=&title=')
+			.then((response) => {
+				console.log(response);
+				// 응답 받은 JSON에서 data 만 추출
+				const { data } = response;
+				// data를 loop 돌려서 html을 생성한다.
+				let html = '';
+				data.forEach(item => {
+					console.log(item);
+					html += `
+						<tr>
+							<td>${item.idx}</td>
+							<td>${cateToStr(item.cate)}</td>
+							<td><a href="/board/view/${item.idx}">${item.title}</a></td>
+							<td>${item.regID}</td>
+							<td>${item.regDate}</td>
+						</tr>
+					`;
+				});
+				
+				document.querySelector('#tbody').innerHTML = html;
+																
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+			.finally(() => {
+				console.log('done');
+			});
+
+>>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 	</script>
 	
 	

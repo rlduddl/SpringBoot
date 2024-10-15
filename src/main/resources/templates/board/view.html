@@ -7,6 +7,7 @@
 	<script th:src="@{/js/axios.min.js}"></script>
 </head>
 <body>
+<<<<<<< HEAD
 	<header th:replace="~{fragments/header :: header}"></header>
 	
 	<main>
@@ -20,10 +21,29 @@
 		<button type="button">삭제</button>
 	</main>
 	
+=======
+	
+	<header th:replace="~{fragments/header :: header}"></header>
+	
+	<main>
+		<li id="idx"></li>
+		<li id="cate"></li>
+		<li id="title"></li>
+		<li id="content"></li>
+		<li id="regID"></li>
+		<li id="regDate"></li>
+		
+		<a href="/board/list2">목록</a>
+		<a href="/board/modify? idx=1000">수정</a>
+		<button type="button">삭제</button>
+	</main>
+
+>>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 	
 	<footer th:replace="~{fragments/footer :: footer}"></footer>
 	
 	<script th:inline="javascript">
+<<<<<<< HEAD
 		const idx = /*[[${idx}]]*/
 		
 		// axios를 이용해서 해당 게시물을 불러오고 html에 출력한다.
@@ -38,5 +58,51 @@
 		})
 		
 	</script>
+=======
+		
+		function cateToStr(cate) {
+			switch (cate) {
+				case 1000:
+					return "공지사항";
+				case 2000:
+					return "자유게시판";
+				case 3000:
+					return "갤러리게시판";
+			}
+		}
+		
+		
+		const idx = [[${idx}]];
+			
+		// axios를 이용해서 해당 게시물을 불러오고 html에 출력한다.
+		
+		axios.get('http://localhost:8111/api/board/view/' + idx)
+			.then((response) => {
+				console.log(response);
+				// 응답 받은 JSON에서 data 만 추출
+				const { data } = response;
+			
+				
+				document.querySelector('#idx').textContent = data.idx;
+				document.querySelector('#cate').textContent = cateToStr(data.cate); 
+				document.querySelector('#title').textContent = data.title;
+				document.querySelector('#content').textContent = data.content;
+				document.querySelector('#regID').textContent = data.regID;
+				document.querySelector('#regDate').textContent = data.regDate;
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+			.finally(() => {
+				console.log('done');
+			});
+				
+															
+		
+	</script>
+
+	
+	
+>>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 </body>
 </html>

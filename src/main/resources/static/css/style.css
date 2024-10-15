@@ -1,0 +1,18 @@
+header {
+	color: red;
+	text-align: center;
+}
+
+thead {
+	font-size: 20px;
+}
+
+table {
+	width: 100%;
+	text-align: center;
+}
+
+li {
+	color: blueviolet;
+	font-size: 20px;
+}

@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-// JSON 으로 리턴할때 키의 값이 null이면 미포함시키는 어노테이션
+// JSON으로 리턴할 때 키의 값이 null이면 미포함시키는 어노테이션
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse {
 	
@@ -36,5 +36,4 @@ public class ApiResponse {
 		this.cause = cause;
 		this.path = path;
 	}
-	
 }

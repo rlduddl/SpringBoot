@@ -45,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/board")
 @Slf4j
-@AllArgsConstructor
+
 public class RestBoardController {
 	
 	private BoardServiceImpl boardService;
@@ -57,10 +57,12 @@ public class RestBoardController {
 	 */
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertBoard(
+
 			@RequestBody BoardVO boardVO, HttpServletRequest request, Model model
 			){
 		MemberVO memberVO = (MemberVO) model.getAttribute("userInfo");
 		boardVO.setRegID(memberVO.getUserID());
+
 		return ResponseEntity.ok(boardService.insertBoard(boardVO, request));
 	}
 	
@@ -90,11 +92,13 @@ public class RestBoardController {
 	 * @return
 	 */
 	@PutMapping("/update")
+
 	public ResponseEntity<?> boardUpdate(@RequestBody BoardVO boardVO, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		MemberVO memberVO  = (MemberVO) session.getAttribute("userInfo");
 		boardVO.setRegID(memberVO.getUserID());
 		return ResponseEntity.ok(boardService.updateBoard(boardVO));
+
 	}
 	
 	/**

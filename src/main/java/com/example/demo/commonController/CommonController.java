@@ -3,7 +3,6 @@ package com.example.demo.commonController;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +40,7 @@ public class CommonController {
 			@RequestParam(value = "password", required = false, defaultValue = "") String password
 			) {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("member/login");
+		mav.setViewName("common/login");  // 충돌 해결
 		mav.addObject("title", "로그인 페이지");
 		mav.addObject("userID", userID);
 		mav.addObject("password", password);
@@ -52,27 +51,16 @@ public class CommonController {
 	public ModelAndView loginProc(
 			@ModelAttribute MemberVO memberVO,
 			HttpServletRequest request
-			//@RequestParam(value = "userID", required = true, defaultValue = "") String userID,
-			//@RequestParam(value = "password", required = true, defaultValue = "") String password
 			) {
-		//log.info("아이디 : " + userID);
-		//log.info("비번 : " + password);
 		ModelAndView mav = new ModelAndView();
 		MemberVO result = memberService.selectOne(memberVO);
-		// log.info(result.toString());
 		if (result != null) {
-			// 세션 부여
 			log.info("로그인 성공");
 			HttpSession session = request.getSession();
 			session.setAttribute("userInfo", result);
 			mav.setViewName("redirect:/");
 		} else {
-			// 로그인 실패
 			log.info("로그인 실패");
-			
-			// redirect : 지정한 URL로 파라미터를 포함해서 GET 방식으로 호출한다.
-			// mav.setViewName("redirect:/member/login?userID=" + memberVO.getUserID() + "&password=" + memberVO.getPassword());
-			// forward : 지정한 URL로 파라미터를 포함해서 GET 또는 POST 방식으로 호출한다.
 			mav.setViewName("forward:/member/login");
 		}
 		
@@ -82,15 +70,10 @@ public class CommonController {
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		// 세션 삭제
 		session.invalidate();
 		return "redirect:/";
 	}
 	
-	/**
-	 * 회원가입 양식
-	 * @return
-	 */
 	@GetMapping("/join")
 	public ModelAndView join() {
 		ModelAndView mav = new ModelAndView();
@@ -98,46 +81,25 @@ public class CommonController {
 		return mav;
 	}
 	
-	/**
-	 * 회원가입 처리
-	 * @param memberVO
-	 */
 	@PostMapping("/joinProc")
 	public void joinProc(@ModelAttribute MemberVO memberVO) {
 		memberService.insert(memberVO);
 	}
 	
-	/**
-	 * 회원가입 비동기 처리
-	 * @param joinRequest
-	 * @RequestBody 어노테이션이 있어야 post 형식의 데이터를 받을 수 있다.
-	 * @return
-	 */
 	@PostMapping("/joinProc2")
 	@ResponseBody
 	public ResponseEntity<?> joinProc2(
 			@RequestBody JoinRequest joinRequest
 			) {
-		
 		log.info(joinRequest.toString());
-		// HashMap<String, Object> result = memberService.memberJoin(joinRequest);
-		// return ResponseEntity.ok(result);
 		return ResponseEntity.ok(memberService.memberJoin(joinRequest));
 	}
 	
-	/**
-	 * 회원정보수정
-	 * @param memberVO
-	 */
 	@PostMapping("/updateProc")
 	public void updateProc(@ModelAttribute MemberVO memberVO) {
 		memberService.update(memberVO);
 	}
 	
-	/**
-	 * 회원 삭제
-	 * @param memberVO
-	 */
 	@PostMapping("/deleteProc")
 	public void deleteProc(@ModelAttribute MemberVO memberVO) {
 		memberService.delete(memberVO);
@@ -150,10 +112,6 @@ public class CommonController {
 		memberService.memberDrop(idx);
 	}
 	
-	/**
-	 * 비동기 통신 아이디 중복 확인
-	 * @return
-	 */
 	@GetMapping("/checkUserID/{userID}")
 	@ResponseBody
 	public ResponseEntity<?> checkUserID(
@@ -163,11 +121,6 @@ public class CommonController {
 		return ResponseEntity.ok(result);
 	}
 	
-	/**
-	 * 비동기 통신 이메일 중복 확인
-	 * @param email
-	 * @return
-	 */
 	@GetMapping("/checkEmail/{email}")
 	@ResponseBody
 	public ResponseEntity<?> checkEmail(
@@ -182,11 +135,6 @@ public class CommonController {
 		return "common/findID";
 	}
 	
-	/**
-	 * 이메일로 아이디 찾기
-	 * @param email
-	 * @return
-	 */
 	@GetMapping("/findID/{email}")
 	@ResponseBody
 	public ResponseEntity<?> findIDByEmail(@PathVariable String email) {
@@ -209,20 +157,11 @@ public class CommonController {
 	@ResponseBody
 	public ResponseEntity<?> test(
 			@RequestBody HashMap<String, Object> map) {
-		
 		log.info(map.toString());
-		
 		StringUtil.printMap("test", map);
-		
 		return ResponseEntity.ok("sdfsdfsdffds");
 	}
 	
-	
-	/**
-	 * 사용자 정보 수정 페이지
-	 * @param request
-	 * @return
-	 */
 	@RequestMapping("/myInfo")
 	public ModelAndView myInfo(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
@@ -230,18 +169,11 @@ public class CommonController {
 		
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO) session.getAttribute("userInfo");
-		
 		mav.addObject("userInfo", memberVO);
 		
 		return mav;
 	}
 	
-	/**
-	 * 회원정보 수정
-	 * @param request
-	 * @param memberVO
-	 * @return
-	 */
 	@PostMapping("/updateInfo")
 	public ModelAndView updateInfo(
 			HttpServletRequest request,
@@ -250,7 +182,6 @@ public class CommonController {
 		log.info(memberVO.toString());
 		
 		boolean result = memberService.updateInfo(request, memberVO);
-		
 		ModelAndView mav = new ModelAndView();
 		
 		if (result) {
@@ -261,5 +192,4 @@ public class CommonController {
 		
 		return mav;
 	}
-	
 }
