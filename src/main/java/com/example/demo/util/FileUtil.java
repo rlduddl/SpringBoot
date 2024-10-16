@@ -1,4 +1,4 @@
-﻿package com.example.demo.util;
+package com.example.demo.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,20 +21,20 @@ import lombok.extern.slf4j.Slf4j;
 public class FileUtil {
 	
 	/**
-	 * ?뚯씪 ?좏삎 ?뚯븙
+	 * 파일 유형 파악
 	 * @param file
 	 * @return
 	 */
 	public static boolean fileMimeType(InputStream file) {
-		// ?낅줈??媛?ν븳 ?뚯씪 ?좏삎 紐⑸줉
+		// 업로드 가능한 파일 유형 목록
 		List<String> typeList = Arrays.asList("image/jpg", "image/png", "image/jpeg", "image/gif", "application/x-tika-ooxml");
 		try {
-			// tika瑜??댁슜?댁꽌 ?ㅻЪ ?뚯씪???좏삎??泥댄겕?쒕떎.
+			// tika를 이용해서 실물 파일의 유형을 체크한다.
 			String mimeType = new Tika().detect(file);
 			
 			log.info("mimeType : {}", mimeType);
 			
-			// typeList瑜?loop ?뚮젮??mimeType怨??쇱튂?섎뒗寃??덉쑝硫?return true ?꾨땲硫?false
+			// typeList를 loop 돌려서 mimeType과 일치하는게 있으면 return true 아니면 false
 			return typeList.stream().anyMatch(item -> item.equalsIgnoreCase(mimeType));
 		} catch (IOException e) {
 			return false;
@@ -42,24 +42,24 @@ public class FileUtil {
 	}
 
 	/**
-	 * ?뚮씪誘명꽣濡?諛쏆? ?뚯씪???쒕씪?대툕???꾩쓽??臾몄옄?대줈 由щ꽕?꾪빐?????
+	 * 파라미터로 받은 파일을 드라이브에 임의의 문자열로 리네임해서 저장
 	 * @param uploadPath
 	 * @param file
 	 * @return
 	 */
 	public static String fileSave(String uploadPath, MultipartFile file) {
-		// 1. MIME 泥댄겕?댁꽌 ?낅줈??媛?ν븳 ?뺤떇???뚯씪?몄? ?뺤씤
+		// 1. MIME 체크해서 업로드 가능한 형식의 파일인지 확인
 		try {
 			boolean isMime = fileMimeType(file.getInputStream());
 			if (isMime) {
 				
-				// uploadPath濡?諛쏆? 寃쎈줈瑜?留뚮뱺??
+				// uploadPath로 받은 경로를 만든다.
 				File uploadFileDir = new File(uploadPath);
 				if (!uploadFileDir.exists()) {
 					uploadFileDir.mkdirs();
 				}
 				
-				// ?뚯씪 ??μ떆 以묐났?섏? ?딄쾶 ?섍린 ?꾪빐??由щ꽕??????ν븳??
+				// 파일 저장시 중복되지 않게 하기 위해서 리네임 후 저장한다.
 				String genId = UUID.randomUUID().toString();
 				
 				log.info(genId);
@@ -68,23 +68,23 @@ public class FileUtil {
 				String fileExt = getExtension(orgFileName);
 				String saveFileName = genId + "." + fileExt;
 				log.info(saveFileName);
-				// 寃쎈줈 留뚮뱾湲?
-				// ?쒕씪?대툕/??κ린蹂명뤃?????????뚯씪紐?
+				// 경로 만들기
+				// 드라이브/저장기본폴더/년/월/일/파일명
 				String savePath = calcPath(uploadPath);
-				// ?대떦 寃쎈줈???뚯씪 蹂듭궗
+				// 해당 경로에 파일 복사
 				File target = new File(uploadPath + savePath, saveFileName);
 				FileCopyUtils.copy(file.getBytes(), target);
-				// 寃쎈줈 + ?뚯씪紐낆쓣 由ы꽩 
+				// 경로 + 파일명을 리턴 
 				return makeFilePath(uploadPath, savePath, saveFileName);
 			}
 			return "";
 		} catch (Exception e) {
-			throw new BadRequestException("?낅줈?쒓? 遺덇??ν븳 ?뚯씪 ?뺤떇?낅땲??");
+			throw new BadRequestException("업로드가 불가능한 파일 형식입니다.");
 		}
 	}
 	
 	/**
-	 * ?뚯씪 蹂듭궗 ?꾨즺 ??由ы꽩???꾩껜 臾몄옄??
+	 * 파일 복사 완료 후 리턴할 전체 문자열
 	 * @param uploadPath
 	 * @param path
 	 * @param fileName
@@ -96,44 +96,44 @@ public class FileUtil {
 	}
 	
 	/**
-	 * ???????⑥뒪瑜?留뚮뱾?댁꽌 ?대뜑 ?앹꽦 諛??⑥뒪 由ы꽩
+	 * 연/월/일 패스를 만들어서 폴더 생성 및 패스 리턴
 	 * @param uploadPath
 	 * @return
 	 */
 	public static String calcPath(String uploadPath) {
 		Calendar calendar = Calendar.getInstance();
 		log.info(calendar.toString());
-		// 寃쎈줈/?곕룄
-		// File.separator 瑜??ъ슜?섎㈃ OS???곕씪 / ?먮뒗 \媛 ?먮룞?쇰줈 李랁엺??
+		// 경로/연도
+		// File.separator 를 사용하면 OS에 따라 / 또는 \가 자동으로 찍힌다.
 		String yearPath = File.separator + String.valueOf(calendar.get(Calendar.YEAR));
 		log.info(yearPath);
-		// ????異쒕젰 2024\9
+		// 연 월 출력 2024\9
 		// 1 11 12 13..... 19 2 20
 		// 01 02 ..... 10 ... 19 20
 		String monthPath = yearPath + File.separator + new DecimalFormat("00").format(calendar.get(Calendar.MONTH) + 1);
 		log.info(monthPath);
-		// ??????異쒕젰
+		// 연 월 일 출력
 		String datePath = monthPath  + File.separator + new DecimalFormat("00").format(calendar.get(Calendar.DATE));
 		log.info(datePath);
-		// ?대뜑 ?앹꽦
+		// 폴더 생성
 		makeDirectories(uploadPath, yearPath, monthPath, datePath);
 		return datePath;
 	}
 	
 	/**
-	 * ?ㅼ젣 寃쎈줈???대뜑 ?앹꽦
+	 * 실제 경로에 폴더 생성
 	 * @param uploadPath
 	 * @param paths
 	 */
 	public static void makeDirectories(String uploadPath, String... paths) {
-		// 寃쎈줈???대뜑媛 ?덉쑝硫?return
+		// 경로에 폴더가 있으면 return
 		if (new File(paths[paths.length - 1]).exists()) {
 			return;
 		}
-		// paths瑜?loop ?뚮젮???대뜑 ?앹꽦
-		// ?낅줈?쒓꼍濡?2024
-		// ?낅줈?쒓꼍濡?2024/10
-		// ?낅줈?쒓꼍濡?2024/10/15
+		// paths를 loop 돌려서 폴더 생성
+		// 업로드경로/2024
+		// 업로드경로/2024/10
+		// 업로드경로/2024/10/15
 		for (String path : paths) {
 			File dirPath = new File(uploadPath + path);
 			if (!dirPath.exists()) dirPath.mkdir();
@@ -141,7 +141,7 @@ public class FileUtil {
 	}
 	
 	/**
-	 * ?뚯씪?먯꽌 ?뺤옣?먮쭔 由ы꽩
+	 * 파일에서 확장자만 리턴
 	 * @param fileName
 	 * @return
 	 */

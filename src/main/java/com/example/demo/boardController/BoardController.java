@@ -1,4 +1,4 @@
-﻿package com.example.demo.boardController;
+package com.example.demo.boardController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class BoardController {
 	private FileService fileService;
 	
 	/**
-	 * 寃뚯떆臾?紐⑸줉
+	 * 게시물 목록
 	 * @param model
 	 * @return
 	 */
@@ -40,7 +40,7 @@ public class BoardController {
 	}
 	
 	/**
-	 * 寃뚯떆臾??댁슜
+	 * 게시물 내용
 	 * @param idx
 	 * @param model
 	 * @return
@@ -52,7 +52,7 @@ public class BoardController {
 	}
 	
 	/**
-	 * 寃뚯떆臾??묒꽦 ?섏씠吏
+	 * 게시물 작성 페이지
 	 * @param model
 	 * @return
 	 */
@@ -70,7 +70,7 @@ public class BoardController {
 	}
 	
 	/**
-	 * 寃뚯떆臾??섏젙 ?섏씠吏
+	 * 게시물 수정 페이지
 	 * @param model
 	 * @param idx
 	 * @return
@@ -98,29 +98,29 @@ public class BoardController {
 	
 	@GetMapping("/list2")
 	public String boardList2(Model model) {
-		model.addAttribute("title", "寃뚯떆臾?紐⑸줉");
-		model.addAttribute("htmlTag", "<p>?섎뒗 P?쒓렇??/p>");
+		model.addAttribute("title", "게시물 목록");
+		model.addAttribute("htmlTag", "<p>나는 P태그다</p>");
 		model.addAttribute("age", 30);
 		
 		List<MemberVO> list = new ArrayList<>();
 		
 		MemberVO memberVO = MemberVO.builder()
 				.userID("abcd")
-				.username("?띻만??)
+				.username("홍길동")
 				.build();
 		
 		list.add(memberVO);
 		
 		MemberVO memberVO2 = MemberVO.builder()
 				.userID("efghj")
-				.username("?띻만??)
+				.username("홍길순")
 				.build();
 		
 		list.add(memberVO2);
 		
 		MemberVO memberVO3 = MemberVO.builder()
 				.userID("zzzz")
-				.username("?댁닚??)
+				.username("이순신")
 				.build();
 		
 		list.add(memberVO3);

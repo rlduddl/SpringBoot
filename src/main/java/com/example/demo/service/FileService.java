@@ -1,4 +1,4 @@
-﻿package com.example.demo.service;
+package com.example.demo.service;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -40,7 +40,7 @@ public class FileService {
 	
 	public Resource loadAsResource(String fileName) {
 		try {
-			// ?뚯씪?대쫫 ?욎뿉 /濡??쒖옉?섎㈃ ??젣
+			// 파일이름 앞에 /로 시작되면 삭제
 			if (fileName.toCharArray()[0] == '/') {
 				fileName = fileName.substring(1);
 			}
@@ -52,15 +52,15 @@ public class FileService {
 				log.info(resource.toString());
 				return resource;
 			} else {
-				throw new BadRequestException(fileName + "???놁뒿?덈떎.");
+				throw new BadRequestException(fileName + "이 없습니다.");
 			}
 		} catch (Exception e) {
-			throw new BadRequestException(fileName + "???놁뒿?덈떎.");
+			throw new BadRequestException(fileName + "이 없습니다.");
 		}
 	}
 	
 	/**
-	 * 泥⑤??뚯씪 留덉뒪??ID ?앹꽦 ??由ы꽩
+	 * 첨부파일 마스터 ID 생성 후 리턴
 	 * @param fileMasterVO
 	 * @return
 	 */
@@ -70,16 +70,16 @@ public class FileService {
 	}
 	
 	public void saveFile(MultipartFile file) {
-		// ?⑸웾, MIME, ?뚯씪紐?
+		// 용량, MIME, 파일명
 		log.info(String.valueOf(file.getSize()));
 		log.info(file.getContentType());
 		log.info(file.getOriginalFilename());
 		
-		// ?뚯씪 議댁옱 ?좊Т 泥댄겕
-		if (file.isEmpty()) throw new BadRequestException("?뚯씪???놁뒿?덈떎.");
+		// 파일 존재 유무 체크
+		if (file.isEmpty()) throw new BadRequestException("파일이 없습니다.");
 		
 		String saveFileName = FileUtil.fileSave(rootLocation.toString(), file);	
-		// 由ы꽩 諛쏆? ?뚯씪 寃쎈줈?먯꽌 /yyyy/mm/dd/ 留?蹂꾨룄濡?遺꾨━?쒕떎.
+		// 리턴 받은 파일 경로에서 /yyyy/mm/dd/ 만 별도로 분리한다.
 		String[] saveFileArray = saveFileName.split("/");
 		StringBuilder fileDirString = new StringBuilder();
 		for (int i = 0; i < saveFileArray.length; i++) {
@@ -87,10 +87,10 @@ public class FileService {
 				fileDirString.append(saveFileArray[i]).append(File.separator);
 			}
 		}
-		// FILE_LOCATION 媛?異쒕젰
+		// FILE_LOCATION 값 출력
 		log.info(fileDirString.toString());
 		// FILE_PATH
-		// saveFileName ??泥ル쾲吏??덊꽣媛 / ?대㈃ ??젣
+		// saveFileName 의 첫번째 레터가 / 이면 삭제
 		if (saveFileName.toCharArray()[0] == '/') {
 			saveFileName = saveFileName.substring(1);
 		}
@@ -120,7 +120,7 @@ public class FileService {
 	}
 	
 	/**
-	 * 泥⑤??뚯씪 異쒕젰
+	 * 첨부파일 출력
 	 * @param fileDetailVO
 	 * @return
 	 */

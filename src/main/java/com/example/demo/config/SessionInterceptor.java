@@ -1,4 +1,4 @@
-﻿package com.example.demo.config;
+package com.example.demo.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -15,14 +15,14 @@ public class SessionInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// 1. ?몄뀡 泥댄겕
+		// 1. 세션 체크
 		HttpSession session = request.getSession(false);
-		// 2. 泥댄겕?댁꽌 ?몄뀡 媛믪씠 ?덉쑝硫?濡쒓렇???쒓굅??
+		// 2. 체크해서 세션 값이 있으면 로그인 한거다
 		if (session != null) {
 			MemberVO userInfo = (MemberVO) session.getAttribute("userInfo");
 			if (userInfo != null) return true;
 		}
-		// 3. ?몄뀡 媛믪씠 ?놁쑝硫?null 濡쒓렇???섏씠吏濡??대룞
+		// 3. 세션 값이 없으면 null 로그인 페이지로 이동
 		response.sendRedirect(request.getContextPath() + "/member/login");
 		return false;
 	}

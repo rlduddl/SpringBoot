@@ -1,4 +1,4 @@
-﻿package com.example.demo.commonController;
+package com.example.demo.commonController;
 
 import java.util.HashMap;
 
@@ -35,7 +35,7 @@ public class CommonController {
 	@Autowired
 	private MemberServiceImpl memberService;
 	
-	// 濡쒓렇???섏씠吏 - 異뷀썑 援ы쁽
+	// 로그인 페이지 - 추후 구현
 	@RequestMapping("/login")
 	public ModelAndView login(
 			@RequestParam(value = "userID", required = false, defaultValue = "") String userID,
@@ -43,7 +43,7 @@ public class CommonController {
 			) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("member/login");
-		mav.addObject("title", "濡쒓렇???섏씠吏");
+		mav.addObject("title", "로그인 페이지");
 		mav.addObject("userID", userID);
 		mav.addObject("password", password);
 		return mav;
@@ -57,23 +57,23 @@ public class CommonController {
 			//@RequestParam(value = "userID", required = true, defaultValue = "") String userID,
 			//@RequestParam(value = "password", required = true, defaultValue = "") String password
 			) {
-		//log.info("?꾩씠??: " + userID);
-		//log.info("鍮꾨쾲 : " + password);
+		//log.info("아이디 : " + userID);
+		//log.info("비번 : " + password);
 		MemberVO result = memberService.selectOne(memberVO);
 		// log.info(result.toString());
 		if (result != null) {
-			// ?몄뀡 遺??
-			log.info("濡쒓렇???깃났");
+			// 세션 부여
+			log.info("로그인 성공");
 			HttpSession session = request.getSession();
 			session.setAttribute("userInfo", result);
 			return "redirect:/board/list";
 		} else {
-			// 濡쒓렇???ㅽ뙣
-			log.info("濡쒓렇???ㅽ뙣");
+			// 로그인 실패
+			log.info("로그인 실패");
 			
-			// redirect : 吏?뺥븳 URL濡??뚮씪誘명꽣瑜??ы븿?댁꽌 GET 諛⑹떇?쇰줈 ?몄텧?쒕떎.
+			// redirect : 지정한 URL로 파라미터를 포함해서 GET 방식으로 호출한다.
 			// mav.setViewName("redirect:/member/login?userID=" + memberVO.getUserID() + "&password=" + memberVO.getPassword());
-			// forward : 吏?뺥븳 URL濡??뚮씪誘명꽣瑜??ы븿?댁꽌 GET ?먮뒗 POST 諛⑹떇?쇰줈 ?몄텧?쒕떎.
+			// forward : 지정한 URL로 파라미터를 포함해서 GET 또는 POST 방식으로 호출한다.
 		}
 		
 		return "forward:/member/login";
@@ -82,13 +82,13 @@ public class CommonController {
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		// ?몄뀡 ??젣
+		// 세션 삭제
 		session.invalidate();
 		return "redirect:/";
 	}
 	
 	/**
-	 * ?뚯썝媛???묒떇
+	 * 회원가입 양식
 	 * @return
 	 */
 	@GetMapping("/join")
@@ -99,7 +99,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * ?뚯썝媛??泥섎━
+	 * 회원가입 처리
 	 * @param memberVO
 	 */
 	@PostMapping("/joinProc")
@@ -108,9 +108,9 @@ public class CommonController {
 	}
 	
 	/**
-	 * ?뚯썝媛??鍮꾨룞湲?泥섎━
+	 * 회원가입 비동기 처리
 	 * @param joinRequest
-	 * @RequestBody ?대끂?뚯씠?섏씠 ?덉뼱??post ?뺤떇???곗씠?곕? 諛쏆쓣 ???덈떎.
+	 * @RequestBody 어노테이션이 있어야 post 형식의 데이터를 받을 수 있다.
 	 * @return
 	 */
 	@PostMapping("/joinProc2")
@@ -126,7 +126,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * ?뚯썝?뺣낫?섏젙
+	 * 회원정보수정
 	 * @param memberVO
 	 */
 	@PostMapping("/updateProc")
@@ -135,7 +135,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * ?뚯썝 ??젣
+	 * 회원 삭제
 	 * @param memberVO
 	 */
 	@PostMapping("/deleteProc")
@@ -151,7 +151,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * 鍮꾨룞湲??듭떊 ?꾩씠??以묐났 ?뺤씤
+	 * 비동기 통신 아이디 중복 확인
 	 * @return
 	 */
 	@GetMapping("/checkUserID/{userID}")
@@ -164,7 +164,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * 鍮꾨룞湲??듭떊 ?대찓??以묐났 ?뺤씤
+	 * 비동기 통신 이메일 중복 확인
 	 * @param email
 	 * @return
 	 */
@@ -183,7 +183,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * ?대찓?쇰줈 ?꾩씠??李얘린
+	 * 이메일로 아이디 찾기
 	 * @param email
 	 * @return
 	 */
@@ -219,7 +219,7 @@ public class CommonController {
 	
 	
 	/**
-	 * ?ъ슜???뺣낫 ?섏젙 ?섏씠吏
+	 * 사용자 정보 수정 페이지
 	 * @param request
 	 * @return
 	 */
@@ -237,7 +237,7 @@ public class CommonController {
 	}
 	
 	/**
-	 * ?뚯썝?뺣낫 ?섏젙
+	 * 회원정보 수정
 	 * @param request
 	 * @param memberVO
 	 * @return

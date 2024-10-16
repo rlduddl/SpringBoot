@@ -1,4 +1,4 @@
-﻿package com.example.demo.vo;
+package com.example.demo.vo;
 
 import java.time.LocalDateTime;
 
@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// 硫ㅻ쾭蹂?섏쓽 getter ?먮룞 ?앹꽦
+// 멤버변수의 getter 자동 생성
 @Getter
-// 硫ㅻ쾭蹂?섏쓽 setter ?먮룞 ?앹꽦
+// 멤버변수의 setter 자동 생성
 @Setter
-// 媛앹껜??toString 硫붿꽌???먮룞 ?앹꽦
+// 객체의 toString 메서드 자동 생성
 @ToString
-// ?뚮씪誘명꽣 ?녿뒗 湲곕낯 而⑥뒪?몃윮???먮룞 ?앹꽦
+// 파라미터 없는 기본 컨스트럭터 자동 생성
 @NoArgsConstructor
-// 紐⑤뱺 留대쾭 蹂?섎? ?뚮씪誘명꽣濡쒗븯??而⑥뒪?몃윮???앹꽦
+// 모든 맴버 변수를 파라미터로하는 컨스트럭터 생성
 // @AllArgsConstructor
 public class MemberVO {
 	private Long idx;

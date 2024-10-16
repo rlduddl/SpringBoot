@@ -1,4 +1,4 @@
-﻿package com.example.demo.service.impl;
+package com.example.demo.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +38,7 @@ public class BoardServiceImpl implements CrudService<BoardVO> {
 	public BoardVO selectBoard(Long idx) {
 		BoardVO boardVO = boardMapper.selectOne(idx);
 		
-		if (boardVO == null) throw new NotFoundException("寃뚯떆臾쇱쓣 李얠쓣 ???놁뒿?덈떎.");
+		if (boardVO == null) throw new NotFoundException("게시물을 찾을 수 없습니다.");
 		
 		log.info(boardVO.toString());
 		return boardVO;
@@ -62,9 +62,9 @@ public class BoardServiceImpl implements CrudService<BoardVO> {
 	
 	public ApiResponse updateBoard(BoardVO e) {
 		BoardVO boardVO = boardMapper.selectOne(e.getIdx());
-		if (boardVO == null) throw new NotFoundException("寃뚯떆臾쇱쓣 李얠쓣 ???놁뒿?덈떎.");
+		if (boardVO == null) throw new NotFoundException("게시물을 찾을 수 없습니다.");
 		boardMapper.update(e);
-		return new ApiResponse(true, "??λ릺?덉뒿?덈떎.");
+		return new ApiResponse(true, "저장되었습니다.");
 	}
 
 	@Override

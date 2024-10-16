@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title></title>
@@ -20,11 +20,11 @@
 		<table>
 			<thead>
 				<tr>
-					<th>踰덊샇</th>
-					<th>遺꾨쪟</th>
-					<th>?쒕ぉ</th>
-					<th>?깅줉?륤D</th>
-					<th>?깅줉??/th>
+					<th>번호</th>
+					<th>분류</th>
+					<th>제목</th>
+					<th>등록자ID</th>
+					<th>등록일</th>
 				</tr>
 			</thead>
 			<tbody id="tbody"></tbody>
@@ -38,19 +38,19 @@
 	function cateToStr(cate) {
 		switch (cate) {
 			case 1000:
-				return "怨듭??ы빆";
+				return "공지사항";
 			case 2000:
-				return "?먯쑀寃뚯떆??;
+				return "자유게시판";
 			case 3000:
-				return "媛ㅻ윭由ш쾶?쒗뙋";
+				return "갤러리게시판";
 		}
 	}
 		
 	axios.get('http://localhost:8111/api/board/list?cate=1000&title=')
 		.then((response) => {
-			// ?묐떟 諛쏅뒗 JSON?먯꽌 data 留?異붿텧
+			// 응답 받는 JSON에서 data 만 추출
 			const { data } = response;
-			// data瑜?loop ?뚮젮??html???앹꽦?쒕떎.
+			// data를 loop 돌려서 html을 생성한다.
 			let html = '';
 			data.forEach(item => {
 				console.log(item);

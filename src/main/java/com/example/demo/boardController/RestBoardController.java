@@ -1,4 +1,4 @@
-﻿package com.example.demo.boardController;
+package com.example.demo.boardController;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -25,21 +25,21 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 // RESTful API
-// rest : ?몄븞?섎떎 x
+// rest : 편안하다 x
 // Representational State Transfer
-// ?먯썝(Resource) : REST?먯꽌 紐⑤뱺 寃껋? ?먯썝?쇰줈 ?쒗쁽?쒕떎.
-//		?먯썝? URI(Uniform Resource Identifier)瑜??듯빐 怨좎쑀?섍쾶 ?앸퀎?쒕떎. (??: ?ъ슜???뺣낫瑜??대엺 /member/user?idx=1 
-//		http://?꾨찓??member/user/1
+// 자원(Resource) : REST에서 모든 것은 자원으로 표현된다.
+//		자원은 URI(Uniform Resource Identifier)를 통해 고유하게 식별된다. (예 : 사용자 정보를 열람 /member/user?idx=1 
+//		http://도메인/member/user/1
 // URI ,URL
-// URL : Uniform Resource Locator (??: ?뱀젙???먯썝???꾩튂瑜??섑??몃떎.) http://?꾨찓??member/user/info.html
-// ?곹깭 ?꾩씠(Stateless) : RESTful API???곹깭媛 ?녿떎. 媛??붿껌? ?낅┰?곸씠怨? ?대씪?댁뼵?몄쓽 ?곹깭瑜??쒕쾭媛 ??ν븯吏 ?딅뒗?? ?대씪?댁뼵?몃뒗 ?꾩슂???뺣낫瑜??붿껌???ы븿?댁빞?쒕떎.
-// ?쒗쁽(Representation) : ?대씪?댁뼵?멸? ?먯썝???쒗쁽???붿껌?섍퀬, ?쒕쾭??JSON, XML ?뺤떇?쇰줈 諛섑솚?쒕떎.
-// HTTP 硫붿꽌??: GET, POST (?쇰컲?곸씤 request?뺤떇)
-//		GET : ?먯썝 ?붿껌
-//		POST : ?덈줈???먯썝 ?앹꽦
-// 		PUT : ?먯썝 ?섏젙 (?꾩껜)
-//		PATCH : ?먯썝 ?섏젙 (遺遺?
-//		DELETE : ?먯썝 ??젣
+// URL : Uniform Resource Locator (예 : 특정한 자원의 위치를 나타낸다.) http://도메인/member/user/info.html
+// 상태 전이(Stateless) : RESTful API는 상태가 없다. 각 요청은 독립적이고, 클라이언트의 상태를 서버가 저장하지 않는다. 클라이언트는 필요한 정보를 요청에 포함해야한다.
+// 표현(Representation) : 클라이언트가 자원의 표현을 요청하고, 서버는 JSON, XML 형식으로 반환한다.
+// HTTP 메서드 : GET, POST (일반적인 request형식)
+//		GET : 자원 요청
+//		POST : 새로운 자원 생성
+// 		PUT : 자원 수정 (전체)
+//		PATCH : 자원 수정 (부분)
+//		DELETE : 자원 삭제
 
 
 @RestController
@@ -51,7 +51,7 @@ public class RestBoardController {
 	private BoardServiceImpl boardService;
 	
 	/**
-	 * 寃뚯떆臾????
+	 * 게시물 저장
 	 * @param boardVO
 	 * @return
 	 */
@@ -65,7 +65,7 @@ public class RestBoardController {
 	}
 	
 	/**
-	 * 寃뚯떆臾?紐⑸줉
+	 * 게시물 목록
 	 * @param boardVO
 	 * @return
 	 */
@@ -75,7 +75,7 @@ public class RestBoardController {
 	}
 	
 	/**
-	 * 寃뚯떆臾??대엺
+	 * 게시물 열람
 	 * @param idx
 	 * @return
 	 */
@@ -85,7 +85,7 @@ public class RestBoardController {
 	}
 	
 	/**
-	 * 寃뚯떆臾??섏젙
+	 * 게시물 수정
 	 * @param boardVO
 	 * @return
 	 */
@@ -98,14 +98,14 @@ public class RestBoardController {
 	}
 	
 	/**
-	 * 寃뚯떆臾???젣
+	 * 게시물 삭제
 	 * @param idx
 	 * @return
 	 */
 	@DeleteMapping("/delete/{idx}")
 	public ResponseEntity<?> boardDelete(@PathVariable Long idx) {
 		boardService.delete(idx);
-		return ResponseEntity.ok(new ApiResponse(true, "??젣?섏뿀?듬땲??"));
+		return ResponseEntity.ok(new ApiResponse(true, "삭제되었습니다."));
 	}
 	
 

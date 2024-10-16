@@ -1,4 +1,4 @@
-﻿<%@ page language="java" 
+<%@ page language="java" 
 	contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,43 +13,43 @@
 	<form id="infoForm" method="post" action="/member/updateInfo">
 		<input type="hidden" id="idx" name="idx" value='<c:out value="${userInfo.getIdx()}" />' readonly />
 		<div>
-			<label for="userID">?꾩씠??label>
+			<label for="userID">아이디<label>
 			<input type="text" id="userID" name="userID" value='<c:out value="${userInfo.getUserID()}" />' readonly />
 		</div>
 		<div>
-			<label for="password">鍮꾨?踰덊샇<label>
+			<label for="password">비밀번호<label>
 			<input type="password" id="password" name="password" value='' />
 		</div>
 		<div>
-			<label for="password2">鍮꾨?踰덊샇 ?뺤씤<label>
+			<label for="password2">비밀번호 확인<label>
 			<input type="password" id="password2" name="password2" value='' />
 		</div>
 		<div>
-			<label for="username">?대쫫<label>
+			<label for="username">이름<label>
 			<input type="text" id="username" name="username" value='<c:out value="${userInfo.getUsername()}" />' />
 		</div>
 		<div>
-			<label for="email">?대찓??label>
+			<label for="email">이메일<label>
 			<input type="text" id="email" name="email" value='<c:out value="${userInfo.getEmail()}" />' />
-			<button type="button">以묐났?뺤씤</button>
+			<button type="button">중복확인</button>
 		</div>
-		<button type="button" id="btnConfirm">?뺤씤</button>
+		<button type="button" id="btnConfirm">확인</button>
 	</form>
 <!--
-1. myInfo??session???덈뒗 媛믪쓣 MemberVO濡?罹먯뒪?낇빐??form???묒떇??留뚮뱺??
-2. form???ㅼ뼱媛??꾨뱶 : userID(?쎄린?꾩슜), password (怨듬?), username, email (蹂寃쎌떆 以묐났泥댄겕)
-3. ?쇱쓣 ?묒꽦?댁꽌 post濡??꾩넚
-4. DB????ν븯湲곗쟾??session???덈뒗 idx媛? userID媛?2媛쒕? ?쎌뼱??form???덈뒗 userID? ?쇱튂?섎뒗吏 ?뺤씤
-5. DB??session?먯꽌 ?뺤씤??idx媛? userID媛믪쑝濡?議고쉶?섎뒗 ??議댁옱 ?щ? ?뺤씤
-6. ?됱씠 議댁옱?섎㈃ update, ?놁쑝硫??ㅻ쪟 硫붿떆吏 異쒕젰
-7. update媛 ?섎㈃ ?섏젙?꾨즺 硫붿떆吏 ???쒕뵫?섏씠吏濡??대룞
-8. 留뚯빟 ?ㅻ쪟媛 ?섎㈃ forward濡??뺣낫 ?섏젙?섏씠吏濡??ㅼ떆 ?대룞
+1. myInfo에 session에 있는 값을 MemberVO로 캐스팅해서 form에 양식을 만든다.
+2. form에 들어갈 필드 : userID(읽기전용), password (공란), username, email (변경시 중복체크)
+3. 폼을 작성해서 post로 전송
+4. DB에 저장하기전에 session에 있는 idx값, userID값 2개를 읽어서 form에 있는 userID와 일치하는지 확인
+5. DB에 session에서 확인한 idx값, userID값으로 조회되는 행 존재 여부 확인
+6. 행이 존재하면 update, 없으면 오류 메시지 출력
+7. update가 되면 수정완료 메시지 후 랜딩페이지로 이동
+8. 만약 오류가 나면 forward로 정보 수정페이지로 다시 이동
 -->
 <script>
-	// ???쒖텧 ???ш퀬瑜?諛⑹??섎뒗 李⑥썝?먯꽌 鍮꾨?踰덊샇瑜??낅젰 諛쏅뒗??
-	// 留뚯빟 鍮꾨?踰덊샇??蹂寃쏀빐?쇳븯硫?鍮꾨?踰덊샇 ?꾨뱶 2媛????낅젰 諛쏅뒗??
-	// 鍮꾨?踰덊샇瑜?2媛??낅젰 諛쏆? 寃쎌슦 鍮꾧탳 泥섎━ ?꾩슂
-	// 鍮꾨룞湲??듭떊?쇰줈 泥섎━?대룄 ?곴? ?놁쑝???ㅼ뒿???꾪빐??post濡??쒖텧 泥섎━?쒕떎.
+	// 폼 제출 시 사고를 방지하는 차원에서 비밀번호를 입력 받는다.
+	// 만약 비밀번호도 변경해야하면 비밀번호 필드 2개 다 입력 받는다.
+	// 비밀번호를 2개 입력 받은 경우 비교 처리 필요
+	// 비동기 통신으로 처리해도 상관 없으나 실습을 위해서 post로 제출 처리한다.
 	document.querySelector('#btnConfirm').addEventListener('click', function(e){
 		e.preventDefault();
 		
@@ -61,24 +61,24 @@
 		
 		const email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
 		if(!email_regex.test(email)){ 
-			alert('?대찓???뺤떇???뺤씤?섏꽭??');
+			alert('이메일 형식을 확인하세요.');
 			return false; 
 		}
 		if (userID === '') {
-			alert('?꾩씠?붽? ?놁뒿?덈떎.');
+			alert('아이디가 없습니다.');
 			window.location.href = '/';
 			return false;
 		}
 		if (username.length < 2) {
-			alert('?대쫫? 2湲???댁긽 ?낅젰?섏꽭??');
+			alert('이름은 2글자 이상 입력하세요.');
 			return false;
 		}
 		if (password === '' && password2 !== '') {
-			alert('鍮꾨?踰덊샇 蹂寃쎌쓣 ?먰븷 寃쎌슦 鍮꾨?踰덊샇? 鍮꾨?踰덊샇 ?뺤씤??紐⑤몢 ?낅젰?섏꽭??');
+			alert('비밀번호 변경을 원할 경우 비밀번호와 비밀번호 확인을 모두 입력하세요.');
 			return false;
 		}
 		if (password !== '' && password2 !== '' && password !== password2) {
-			alert('鍮꾨?踰덊샇? 鍮꾨?踰덊샇 ?뺤씤 ????ㅻ쫭?덈떎.');
+			alert('비밀번호와 비밀번호 확인 란이 다릅니다.');
 			return false;
 		}
 		

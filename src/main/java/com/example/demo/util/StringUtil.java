@@ -1,4 +1,4 @@
-﻿package com.example.demo.util;
+package com.example.demo.util;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StringUtil {
 
-	// ?쒕뜡 臾몄옄???앹꽦
+	// 랜덤 문자열 생성
 	public static String generateRandomString(int len) {
 		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		StringBuilder result = new StringBuilder(len);
@@ -26,7 +26,7 @@ public class StringUtil {
 	
 	
 	/**
-	 * HashMap??key, value 異쒕젰 硫붿꽌??
+	 * HashMap의 key, value 출력 메서드
 	 * @param asTitle
 	 * @param aoMap
 	 */
