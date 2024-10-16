@@ -1,4 +1,4 @@
-package com.example.demo.adminController;
+﻿package com.example.demo.adminController;
 
 import java.util.List;
 
@@ -35,8 +35,8 @@ public class AdminController {
 	
 	// memberList?userID=abcd
 	// http://localhost:8080/admin/memberList?userID=abcd
-	// @RequestParam 어노테이션으로 파라미터를 넣는다.
-	// @RequestParam value는 url의 키값, required는 필수 여부, defaultValue는 값이 없을때 사용할 기본값
+	// @RequestParam ?대끂?뚯씠?섏쑝濡??뚮씪誘명꽣瑜??ｋ뒗??
+	// @RequestParam value??url???ㅺ컪, required???꾩닔 ?щ?, defaultValue??媛믪씠 ?놁쓣???ъ슜??湲곕낯媛?
 	@GetMapping("/memberList")
 	public ModelAndView memberList(
 			
@@ -51,16 +51,16 @@ public class AdminController {
 		log.info(memberVO.toString());
 		log.info("=====================");
 		
-		// TRACE : 가장 세밀한 로그 - 메소드의 시작, 끝, 변수상태, 매개변수 등등
-		// DEBUG : 내부 상황 추척
-		// INFO : 일반적인 정보 출력
-		// WARN : 경고 로그 출력 (향후 문제가 발생할 가능성이 있는 경우 출력)
-		// ERROR : 치명적 오류가 발생했을떄 출력 *******
+		// TRACE : 媛???몃???濡쒓렇 - 硫붿냼?쒖쓽 ?쒖옉, ?? 蹂?섏긽?? 留ㅺ컻蹂???깅벑
+		// DEBUG : ?대? ?곹솴 異붿쿃
+		// INFO : ?쇰컲?곸씤 ?뺣낫 異쒕젰
+		// WARN : 寃쎄퀬 濡쒓렇 異쒕젰 (?ν썑 臾몄젣媛 諛쒖깮??媛?μ꽦???덈뒗 寃쎌슦 異쒕젰)
+		// ERROR : 移섎챸???ㅻ쪟媛 諛쒖깮?덉쓣??異쒕젰 *******
 		
 		List<MemberVO> list = memberService.selectList(memberVO);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("admin/memberList");
-		mav.addObject("title", "회원목록");
+		mav.addObject("title", "?뚯썝紐⑸줉");
 		mav.addObject("list", list);
 		return mav;
 	}

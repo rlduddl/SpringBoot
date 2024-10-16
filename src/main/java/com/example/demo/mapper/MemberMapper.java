@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+﻿package com.example.demo.mapper;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class MemberMapper {
 	//}
 	
 	/**
-	 * 회원 목록 
+	 * ?뚯썝 紐⑸줉 
 	 * @param memberVO
 	 * @return
 	 */
@@ -29,7 +29,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 회원 정보
+	 * ?뚯썝 ?뺣낫
 	 * @param memberVO
 	 * @return
 	 */
@@ -38,7 +38,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 회원 저장
+	 * ?뚯썝 ???
 	 * @param memberVO
 	 */
 	public void insert(MemberVO memberVO) {
@@ -46,7 +46,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 정보 수정
+	 * ?뺣낫 ?섏젙
 	 * @param memberVO
 	 */
 	public void update(MemberVO memberVO) {
@@ -54,7 +54,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 삭제
+	 * ??젣
 	 * @param memberVO
 	 */
 	public void delete(MemberVO memberVO) {
@@ -62,7 +62,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 회원 탈퇴 처리
+	 * ?뚯썝 ?덊눜 泥섎━
 	 * @param idx
 	 */
 	public void memberDrop(Long idx) {
@@ -70,7 +70,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 아이디 중복 체크
+	 * ?꾩씠??以묐났 泥댄겕
 	 * @param userID
 	 * @return
 	 */
@@ -79,7 +79,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 이메일 중복 체크
+	 * ?대찓??以묐났 泥댄겕
 	 * @param email
 	 * @return
 	 */
@@ -88,7 +88,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 이메일로 아이디 찾기
+	 * ?대찓?쇰줈 ?꾩씠??李얘린
 	 * @param email
 	 * @return
 	 */
@@ -97,7 +97,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 아이디와 이메일로 사용자의 PK값 얻어 내기
+	 * ?꾩씠?붿? ?대찓?쇰줈 ?ъ슜?먯쓽 PK媛??살뼱 ?닿린
 	 * @param memberVO
 	 * @return
 	 */
@@ -106,7 +106,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * pk값으로 비밀번호 변경
+	 * pk媛믪쑝濡?鍮꾨?踰덊샇 蹂寃?
 	 * @param memberVO
 	 */
 	public void updatePW(MemberVO memberVO) {
@@ -114,7 +114,7 @@ public class MemberMapper {
 	}
 	
 	/**
-	 * 회원정보 변경
+	 * ?뚯썝?뺣낫 蹂寃?
 	 * @param memberVO
 	 */
 	public void updateInfo(MemberVO memberVO) {

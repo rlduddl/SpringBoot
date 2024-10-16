@@ -1,4 +1,4 @@
-<%@ page language="java" 
+﻿<%@ page language="java" 
 	contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -11,40 +11,40 @@
 <body>
 	<form method="post" action="/member/joinProc">
 		<div>
-			<label for="userID">아이디</label>
+			<label for="userID">?꾩씠??/label>
 			<input type="text" id="userID" name="userID" value="" />
-			<button type="button" id="btnIdCheck">아이디 중복확인</button>
+			<button type="button" id="btnIdCheck">?꾩씠??以묐났?뺤씤</button>
 		</div>
 		<div>
-			<label for="email">이메일</label>
+			<label for="email">?대찓??/label>
 			<input type="text" id="email" name="email" value="" />
-			<button type="button" id="btnEmailCheck">이메일 중복확인</button>
+			<button type="button" id="btnEmailCheck">?대찓??以묐났?뺤씤</button>
 		</div>
 		<div>
-			<label for="username">이름</label>
+			<label for="username">?대쫫</label>
 			<input type="text" id="username" name="username" value="" />
 		</div>
 		<div>
-			<label for="password">비밀번호</label>
+			<label for="password">鍮꾨?踰덊샇</label>
 			<input type="password" id="password" name="password" value="" />
 		</div>
 		<div>
-			<label for="password2">비밀번호 확인</label>
+			<label for="password2">鍮꾨?踰덊샇 ?뺤씤</label>
 			<input type="password" id="password2" name="password2" value="" />
 		</div>
-		<button type="button" id="btnJoin">가입</button>
+		<button type="button" id="btnJoin">媛??/button>
 	</form>
 	<script>
-		// 아이디 중복 체크 여부 변수
+		// ?꾩씠??以묐났 泥댄겕 ?щ? 蹂??
 		let idCheck = false;
 		let idDup = false;
 		
-		// 이메일 중복 체크 여부 변수
+		// ?대찓??以묐났 泥댄겕 ?щ? 蹂??
 		let emailCheck = false;
 		let emailDup = false;
 		
 		const btnIdCheck = document.querySelector('#btnIdCheck');
-		// 아이디 중복 체크
+		// ?꾩씠??以묐났 泥댄겕
 		btnIdCheck.addEventListener('click', function(e){
 			idCheck = false;
 			idDup = false;
@@ -58,10 +58,10 @@
 					idCheck = true;
 					idDup = isExist;
 					if (isExist) {
-						alert('이미 사용중인 아이디 입니다.');
+						alert('?대? ?ъ슜以묒씤 ?꾩씠???낅땲??');
 						document.querySelector('#userID').focus();
 					} else {
-						alert('사용 가능한 아이디입니다.');
+						alert('?ъ슜 媛?ν븳 ?꾩씠?붿엯?덈떎.');
 					}
 				});
 		});
@@ -81,10 +81,10 @@
 					emailCheck = true;
 					emailDup = isExist;
 					if (isExist) {
-						alert('이미 사용중인 이메일 입니다.');
+						alert('?대? ?ъ슜以묒씤 ?대찓???낅땲??');
 						document.querySelector('#email').focus();
 					} else {
-						alert('사용 가능한 이메일입니다.');
+						alert('?ъ슜 媛?ν븳 ?대찓?쇱엯?덈떎.');
 					}
 				});
 		});
@@ -96,17 +96,17 @@
 			const password = document.querySelector('#password').value?.trim();
 			const password2 = document.querySelector('#password2').value?.trim();
 			if (username.length < 2) {
-				alert('이름은 두글자 이상 입력하세요.');
+				alert('?대쫫? ?먭????댁긽 ?낅젰?섏꽭??');
 				document.querySelector('#username').focus();
 				return;
 			}
 			if (password.length < 4) {
-				alert('비밀번호는 4글자 이상 입력하세요.');
+				alert('鍮꾨?踰덊샇??4湲???댁긽 ?낅젰?섏꽭??');
 				document.querySelector('#password').focus();
 				return;
 			}
 			if (password !== password2) {
-				alert('비밀번호가 일치하지 않습니다.');
+				alert('鍮꾨?踰덊샇媛 ?쇱튂?섏? ?딆뒿?덈떎.');
 				document.querySelector('#password').focus();
 				return;
 			}
@@ -116,8 +116,8 @@
 				&& idCheck && !idDup 
 				&& emailCheck && !emailDup
 				) {
-				console.log('가입처리');
-				// 도메인/member/joinProc2
+				console.log('媛?낆쿂由?);
+				// ?꾨찓??member/joinProc2
 				// get : url?key=value&key=value
 				// json post : 
 				// {
@@ -152,7 +152,7 @@
 						}
 					});
 			} else {
-				alert('회원가입 양식을 확인하세요.');
+				alert('?뚯썝媛???묒떇???뺤씤?섏꽭??');
 				return;
 			}
 		});

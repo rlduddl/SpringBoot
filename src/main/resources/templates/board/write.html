@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title></title>
@@ -9,27 +9,22 @@
 	<link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<<<<<<< HEAD
 	<header th:replace="~{fragments/header :: header}"></header>
-=======
-	
->>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 	
 	<main>
 		<form id="writeForm">
 			<input type="hidden" id="cate" value="1000" readonly />
-<<<<<<< HEAD
 			<input type="hidden" id="fileMstId" th:value="${fileMasterId}" readonly />
 			<div>
-				<label for="title">제목</label>
+				<label for="title">?쒕ぉ</label>
 				<input type="text" id="title" />
 			</div>
 			<div>
-				<label for="content">내용</label>
+				<label for="content">?댁슜</label>
 				<input type="text" id="content" />
 			</div>
-			<button type="button" id="btnSave">저장</button>
-			<a href="/board/list">취소</a>
+			<button type="button" id="btnSave">???/button>
+			<a href="/board/list">痍⑥냼</a>
 		</form>
 	</main>
 	
@@ -40,14 +35,16 @@
 					cate: document.querySelector('#cate').value,
 					title: document.querySelector('#title').value,
 					content: document.querySelector('#content').value,
-					fileMstId: document.querySelector('#fileMstId').value
+					fileMstId: document
+					.querySelector('#fileMstId').value
 				})
 				.then((res) => {
-					console.table(res);
-					const {data} = res.data;
-					alert('저장되었습니다');
-					// 도메인/board/view/42
-					window.location.href = `/board/view/${data}`;
+					console.log(res);
+					const {data, success} = res.data;
+					if (success) {
+						alert('????섏뿀?듬땲??');
+						window.location.href = `/board/view/${data}`;
+					}
 					
 				})
 				.catch((error) => {
@@ -59,54 +56,9 @@
 					// do something
 				});
 		});
-=======
-			
-			<div>
-				<label for="title">제목</label>
-				<input type="text" id="title" th:value="${boardVO.title}" />
-			</div>
-			<div>
-				<label for="content">내용</label>
-				<input type="text" id="content" th:value="${boardVO.content}" />
-			</div>
-			<button type="button" id="btnSave">저장</button>
-			<a href="/board/list2">취소</a>
-		</form>
-	</main>
-
-	<script>
-		document.querySelector('#btnSave').addEventListener('click', function(){
-			// axios post
-			axios.post('/api/board/insert', {			
-					cate: document.querySelector('#cate').value,
-					title: document.querySelector('#title').value,
-					content: document.querySelector('#content').value,			
-				})
-				.then((res) => {
-					console.log(res);
-					const {message} = res;
-					if (message) alert(message); // 기본 메시지						
-				})
-				.catch((error) => {
-					console.log(error);
-					const {data} = error.response;
-					console.log(data);
-					if (data.data) alert(data.data);
-								
-				})
-				.finally(() => {
-					// do something
-				})
-		})
->>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 	</script>
 	
 	
 	<footer th:replace="~{fragments/footer :: footer}"></footer>
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> 479622fe3770361a2fc4c81d4960363b49202fb0
 </body>
 </html>

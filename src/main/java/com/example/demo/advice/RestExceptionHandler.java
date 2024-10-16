@@ -1,4 +1,5 @@
-package com.example.demo.advice;
+﻿package com.example.demo.advice;
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +16,7 @@ import com.example.demo.payload.response.ApiResponse;
 @RestControllerAdvice
 public class RestExceptionHandler {
 	
-	// 요청한 URL을 리턴한다.
+	// ?붿껌??URL??由ы꽩?쒕떎.
 	private String getPathFromWebRequest(WebRequest request) {
 		try {
 			return ((ServletWebRequest) request).getRequest().getAttribute("javax.servlet.forward.request_uri").toString();
@@ -37,4 +38,6 @@ public class RestExceptionHandler {
 	public ApiResponse handleNotFoundException(NotFoundException ex, WebRequest request) {
 		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), getPathFromWebRequest(request));
 	}
+	
+	
 }

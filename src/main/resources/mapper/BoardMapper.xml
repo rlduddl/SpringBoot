@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.BoardMapper">
 
@@ -31,14 +31,14 @@
 	<select id="selectList" parameterType="com.example.demo.vo.BoardVO" resultType="com.example.demo.vo.BoardVO">
 		SELECT * FROM BOARD 
 		<where>
-			<if test="cate != null">
+			<if test="cate != '' and !cate.equals('')">
 				and CATE = #{cate}
 			</if>
 			<if test="title != '' and !title.equals('')">
 				and TITLE LIKE '%' || #{title} || '%'
 			</if>
 		</where>
-		ORDER BY idx DESC
+		ORDER BY REGDATE DESC
 	</select>
 	
 	<select id="selectOne" parameterType="Long" resultType="com.example.demo.vo.BoardVO">
@@ -59,8 +59,8 @@
 				, content = #{content}
 			</if>
 		</set>
-		updID = #{updID},
-		updDATE = SYSDATE
+		, updID = #{updID}
+		, updDATE = SYSDATE
 		WHERE IDX = #{idx}
 	</update>
 	

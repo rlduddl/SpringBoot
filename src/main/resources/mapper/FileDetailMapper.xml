@@ -1,6 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.FileDetailMapper">
+
+	<select 
+	id="selectFileByFileDetailId" 
+	parameterType="com.example.demo.vo.FileDetailVO"
+	resultType="com.example.demo.vo.FileDetailVO">
+		SELECT 
+			*
+		FROM FILE_DETAIL
+		WHERE FILE_DETAIL_ID = #{fileDetailId}
+			AND FILE_MST_ID = #{fileMstId}  
+	</select>
 
 	<insert 
 		id="insertDetailFile"

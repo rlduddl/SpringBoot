@@ -1,4 +1,4 @@
-package com.example.demo.service.impl;
+﻿package com.example.demo.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +59,7 @@ public class MemberServiceImpl implements CrudService<MemberVO> {
 	
 	public HashMap<String, Object> checkUserID(String userID) {
 		int cnt = mapper.checkUserID(userID);
-		// 리턴해야 하는 객체가 단순한 숫자 연산의 결과타입이면 번거롭게 VO를 생성하지 말고 hashMap을 쓰면 편리하다.
+		// 由ы꽩?댁빞 ?섎뒗 媛앹껜媛 ?⑥닚???レ옄 ?곗궛??寃곌낵??낆씠硫?踰덇굅濡?쾶 VO瑜??앹꽦?섏? 留먭퀬 hashMap???곕㈃ ?몃━?섎떎.
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("isExist", cnt == 0 ? false : true);
 		return map;
@@ -67,57 +67,57 @@ public class MemberServiceImpl implements CrudService<MemberVO> {
 	
 	public HashMap<String, Object> checkEmail(String email) {
 		int cnt = mapper.checkEmail(email);
-		// 리턴해야 하는 객체가 단순한 숫자 연산의 결과타입이면 번거롭게 VO를 생성하지 말고 hashMap을 쓰면 편리하다.
+		// 由ы꽩?댁빞 ?섎뒗 媛앹껜媛 ?⑥닚???レ옄 ?곗궛??寃곌낵??낆씠硫?踰덇굅濡?쾶 VO瑜??앹꽦?섏? 留먭퀬 hashMap???곕㈃ ?몃━?섎떎.
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("isExist", cnt == 0 ? false : true);
 		return map;
 	}
 	
 	public HashMap<String, Object> memberJoin(JoinRequest joinRequest) {
-		// 리턴 (받는것 포함) 할 객체가 특정하기 어려울 경우 hashmap을 사용한다.
+		// 由ы꽩 (諛쏅뒗寃??ы븿) ??媛앹껜媛 ?뱀젙?섍린 ?대젮??寃쎌슦 hashmap???ъ슜?쒕떎.
 		HashMap<String, Object> map = new HashMap<>();
 		
-		// hashMap 리턴 시 아래의 내용으로 구성
-		// 가입 성공 여부 true, false
-		// 메시지 "성공" "실패" "무언가 사유로 인한 실패"
+		// hashMap 由ы꽩 ???꾨옒???댁슜?쇰줈 援ъ꽦
+		// 媛???깃났 ?щ? true, false
+		// 硫붿떆吏 "?깃났" "?ㅽ뙣" "臾댁뼵媛 ?ъ쑀濡??명븳 ?ㅽ뙣"
 		
-		// 1. 아이디 중복 체크
+		// 1. ?꾩씠??以묐났 泥댄겕
 		HashMap<String, Object> idMap = this.checkUserID(joinRequest.getUserID());
 		boolean idExist = (boolean) idMap.get("isExist");
 		if (idExist) {
 			map.put("result", false);
-			map.put("message", "아이디가 사용중입니다.");
+			map.put("message", "?꾩씠?붽? ?ъ슜以묒엯?덈떎.");
 			return map;
 		}
 		
-		// 2. 이메일 중복 체크
+		// 2. ?대찓??以묐났 泥댄겕
 		HashMap<String, Object> emailMap = this.checkEmail(joinRequest.getEmail());
 		boolean emailExist = (boolean) emailMap.get("isExist");
 		if (emailExist) {
 			map.put("result", false);
-			map.put("message", "이메일이 사용중입니다.");
+			map.put("message", "?대찓?쇱씠 ?ъ슜以묒엯?덈떎.");
 			return map;
 		}
 		
-		// 3. 비번 확인 (비번2개가 동일한지, 비번 길이 4자 이상)
+		// 3. 鍮꾨쾲 ?뺤씤 (鍮꾨쾲2媛쒓? ?숈씪?쒖?, 鍮꾨쾲 湲몄씠 4???댁긽)
 		String pw1 = joinRequest.getPassword();
 		String pw2 = joinRequest.getPassword2();
 		if (!pw1.equals(pw2)) {
 			map.put("result", false);
-			map.put("message", "비밀번호가 일치하지 않습니다.");
+			map.put("message", "鍮꾨?踰덊샇媛 ?쇱튂?섏? ?딆뒿?덈떎.");
 			return map;
 		}
 		if (pw1.length() < 4 || pw2.length() < 4) {
 			map.put("result", false);
-			map.put("message", "비밀번호는 4글자 이상 입력하세요.");
+			map.put("message", "鍮꾨?踰덊샇??4湲???댁긽 ?낅젰?섏꽭??");
 			return map;
 		}
 		
-		// 4. 사용자 이름 있는지 체크 (4자 이상)
+		// 4. ?ъ슜???대쫫 ?덈뒗吏 泥댄겕 (4???댁긽)
 		String username = joinRequest.getUsername();
 		if (username.length() < 2) {
 			map.put("result", false);
-			map.put("message", "이름은 2글자 이상 입력하세요.");
+			map.put("message", "?대쫫? 2湲???댁긽 ?낅젰?섏꽭??");
 			return map;
 		}
 		
@@ -131,7 +131,7 @@ public class MemberServiceImpl implements CrudService<MemberVO> {
 		this.insert(memberVO);
 		
 		map.put("result", true);
-		map.put("message", "가입이 완료되었습니다.");
+		map.put("message", "媛?낆씠 ?꾨즺?섏뿀?듬땲??");
 		
 		return map;
 	}
@@ -141,12 +141,12 @@ public class MemberServiceImpl implements CrudService<MemberVO> {
 		String userID = mapper.findID(email);
 		
 		map.put("result", userID == null ? false : true);
-		map.put("message", userID == null ? "찾으시는 아이디가 없습니다." : "찾으시는 아이디는 " + userID + "입니다.");
+		map.put("message", userID == null ? "李얠쑝?쒕뒗 ?꾩씠?붽? ?놁뒿?덈떎." : "李얠쑝?쒕뒗 ?꾩씠?붾뒗 " + userID + "?낅땲??");
 		return map;
 	}
 
 	public Object changePW(ChangePwRequest changePwRequest) {
-		// 이메일, 아이디로 해당 row 존재 여부 확인 (row가 있으면 idx값이 리턴된다.)
+		// ?대찓?? ?꾩씠?붾줈 ?대떦 row 議댁옱 ?щ? ?뺤씤 (row媛 ?덉쑝硫?idx媛믪씠 由ы꽩?쒕떎.)
 		MemberVO memberVO = MemberVO.builder()
 				.email(changePwRequest.getEmail())
 				.userID(changePwRequest.getUserID())
@@ -155,26 +155,26 @@ public class MemberServiceImpl implements CrudService<MemberVO> {
 		
 		HashMap<String, Object> map = new HashMap<>();
 		
-		// row가 없으면 계정 못찾는 메시지 리턴
+		// row媛 ?놁쑝硫?怨꾩젙 紐살갼??硫붿떆吏 由ы꽩
 		if (idx == null) {
 			map.put("result", false);
-			map.put("message", "계정을 찾을 수 없습니다.");
+			map.put("message", "怨꾩젙??李얠쓣 ???놁뒿?덈떎.");
 			return map;
 		}
 		
-		// 계정이 있으면 랜덤하게 문자열을 생성해서 
-		// idx값에 해당하는 비밀번호 변경
+		// 怨꾩젙???덉쑝硫??쒕뜡?섍쾶 臾몄옄?댁쓣 ?앹꽦?댁꽌 
+		// idx媛믪뿉 ?대떦?섎뒗 鍮꾨?踰덊샇 蹂寃?
 		String randomPw = StringUtil.generateRandomString(10);
 		
-		// 기존에 memberVO가 있기때문에 별도로 생성 하지 않고 기존 변수명 활용
+		// 湲곗〈??memberVO媛 ?덇린?뚮Ц??蹂꾨룄濡??앹꽦 ?섏? ?딄퀬 湲곗〈 蹂?섎챸 ?쒖슜
 		memberVO = MemberVO.builder()
 				.password(randomPw)
 				.idx(idx).build();
 		mapper.updatePW(memberVO);
 		
-		// 완료 메시지에 비밀번호를 넣어서 리턴
+		// ?꾨즺 硫붿떆吏??鍮꾨?踰덊샇瑜??ｌ뼱??由ы꽩
 		map.put("result", true);
-		map.put("message", "임시 비밀번호는 " + randomPw + "입니다.");
+		map.put("message", "?꾩떆 鍮꾨?踰덊샇??" + randomPw + "?낅땲??");
 		
 		return map;
 	}
@@ -187,12 +187,12 @@ public class MemberServiceImpl implements CrudService<MemberVO> {
 			return false;
 		}
 		
-		// pk값이 세션에 있는거랑 다르면 로직을 추가할 수도 있다.
+		// pk媛믪씠 ?몄뀡???덈뒗嫄곕옉 ?ㅻⅤ硫?濡쒖쭅??異붽????섎룄 ?덈떎.
 		if (!memberVO.getIdx().equals(userInfo.getIdx()) ) {
 			return false;
 		}
 		
-		// 세션에 있는 userID와 파라미터로 넘어온 userID가 다르면 이 역시 로직을 추가하는 것도 방법이다.
+		// ?몄뀡???덈뒗 userID? ?뚮씪誘명꽣濡??섏뼱??userID媛 ?ㅻⅤ硫?????떆 濡쒖쭅??異붽??섎뒗 寃껊룄 諛⑸쾿?대떎.
 		if (!memberVO.getUserID().equals(userInfo.getUserID())) {
 			return false;
 		}

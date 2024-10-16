@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title></title>
@@ -13,32 +13,32 @@
 	
 	<form id="loginForm" method="post" action="/member/loginProc">
 		<div>
-			<label for="userID">아이디</label>
-			<input type="text" id="userID" name="userID" placeholder="아이디를 입력하세요." th:value="${userID}" />
+			<label for="userID">?꾩씠??/label>
+			<input type="text" id="userID" name="userID" placeholder="?꾩씠?붾? ?낅젰?섏꽭??" th:value="${userID}" />
 		</div>
 		<div>
-			<label for="password">비밀번호</label>
-			<input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요." th:value="${password}" />
+			<label for="password">鍮꾨?踰덊샇</label>
+			<input type="text" id="password" name="password" placeholder="鍮꾨?踰덊샇瑜??낅젰?섏꽭??" th:value="${password}" />
 		</div>
-		<button type="submit">로그인</button>
+		<button type="submit">濡쒓렇??/button>
 	</form>
-	<a href="/member/join">회원가입</a>
-	<a href="/member/findID">아이디찾기</a>
-	<a href="/member/findPW">비밀번호찾기</a>
+	<a href="/member/join">?뚯썝媛??/a>
+	<a href="/member/findID">?꾩씠?붿갼湲?/a>
+	<a href="/member/findPW">鍮꾨?踰덊샇李얘린</a>
 	<script>
-		// 1. 아이디 입력여부 체크 : 3자 이상 입력
-		// 2. 비번 입력여부 체크 : 3자 이상 입력
-		// 3. 1,2항목 만족 시 form submit
+		// 1. ?꾩씠???낅젰?щ? 泥댄겕 : 3???댁긽 ?낅젰
+		// 2. 鍮꾨쾲 ?낅젰?щ? 泥댄겕 : 3???댁긽 ?낅젰
+		// 3. 1,2??ぉ 留뚯” ??form submit
 		document.querySelector('#loginForm').addEventListener('submit', function(e) {
 			e.preventDefault();
 			const userID = document.querySelector('#userID').value?.trim();
 			const password = document.querySelector('#password').value?.trim();
 			if (userID.length < 3) {
-				alert('아이디는 3자 이상 입력하세요.');
+				alert('?꾩씠?붾뒗 3???댁긽 ?낅젰?섏꽭??');
 				return;
 			}
 			if (password.length < 3) {
-				alert('비밀번호는 3자 이상 입력하세요.');
+				alert('鍮꾨?踰덊샇??3???댁긽 ?낅젰?섏꽭??');
 				return;
 			}
 			this.submit();
@@ -46,7 +46,7 @@
 		
 		const id = "[[${userID}]]";
 		const pw = "[[${password}]]";
-		if (id && pw) alert('계정을 확인하세요.');
+		if (id && pw) alert('怨꾩젙???뺤씤?섏꽭??');
 	</script>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>

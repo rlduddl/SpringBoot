@@ -1,4 +1,4 @@
-<%@ page language="java" 
+﻿<%@ page language="java" 
 	contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- ModelAndView에서 저장한 데이터 호출 -->
+<!-- ModelAndView?먯꽌 ??ν븳 ?곗씠???몄텧 -->
 <title>${title}</title>
 <style>
 	table {
@@ -19,15 +19,15 @@
 	<table>
 		<thead>
 			<tr>
-				<th>번호</th>
-				<th>권한</th>
-				<th>아이디</th>
-				<th>비번</th>
-				<th>이름</th>
-				<th>이메일</th>
-				<th>가입일</th>
-				<th>계정사용여부</th>
-				<th>탈퇴일</th>
+				<th>踰덊샇</th>
+				<th>沅뚰븳</th>
+				<th>?꾩씠??/th>
+				<th>鍮꾨쾲</th>
+				<th>?대쫫</th>
+				<th>?대찓??/th>
+				<th>媛?낆씪</th>
+				<th>怨꾩젙?ъ슜?щ?</th>
+				<th>?덊눜??/th>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,10 +37,10 @@
 					<td>
 						<c:choose>
 							<c:when test="${vo.getIsAdmin() == 1}">
-								관리자
+								愿由ъ옄
 							</c:when>
 							<c:otherwise>
-								일반사용자
+								?쇰컲?ъ슜??
 							</c:otherwise>
 						</c:choose>
 					</td>

@@ -1,4 +1,4 @@
-package com.example.demo.payload.response;
+﻿package com.example.demo.payload.response;
 
 import java.time.Instant;
 
@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-// JSON으로 리턴할 때 키의 값이 null이면 미포함시키는 어노테이션
+// JSON ?쇰줈 由ы꽩?좊븣 ?ㅼ쓽 媛믪씠 null?대㈃ 誘명룷?⑥떆?ㅻ뒗 ?대끂?뚯씠??
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse {
 	
@@ -36,4 +36,5 @@ public class ApiResponse {
 		this.cause = cause;
 		this.path = path;
 	}
+	
 }
