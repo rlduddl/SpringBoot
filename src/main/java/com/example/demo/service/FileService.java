@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.FileDetailMapper;
 import com.example.demo.mapper.FileMasterMapper;
 import com.example.demo.util.FileUtil;
@@ -52,10 +54,10 @@ public class FileService {
 				log.info(resource.toString());
 				return resource;
 			} else {
-				throw new BadRequestException(fileName + "이 없습니다.");
+				throw new ResourceNotFoundException(fileName + "이 없습니다.");
 			}
 		} catch (Exception e) {
-			throw new BadRequestException(fileName + "이 없습니다.");
+			throw new ResourceNotFoundException(fileName + "이 없습니다.");
 		}
 	}
 	
@@ -125,9 +127,10 @@ public class FileService {
 	 * @return
 	 */
 	public FileDetailVO selectFileByFileDetailId(FileDetailVO fileDetailVO) {
-		FileDetailVO vo = fileDetailMapper.selectFileByFileDetailId(fileDetailVO);
-		log.info(vo.toString());
-		return vo;
+		return fileDetailMapper.selectFileByFileDetailId(fileDetailVO)
+				.orElseThrow(() -> new ResourceNotFoundException("첨부파일", "파일명", fileDetailVO.getFileDetailId()));
+		// super(String.format("%s에 해당하는 리소스를 찾을 수 없습니다. %s : '%s'", resourceName, fieldName, fieldValue));
+		
 	}
 
 }

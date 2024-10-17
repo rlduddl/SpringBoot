@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.NotFoundException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.payload.response.ApiResponse;
 
 @RestControllerAdvice
@@ -39,5 +40,10 @@ public class RestExceptionHandler {
 		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), getPathFromWebRequest(request));
 	}
 	
-	
+	@ExceptionHandler(value = ResourceNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public ApiResponse handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+		return new ApiResponse(false, ex.getMessage(), ex.getClass().getName(), getPathFromWebRequest(request));
+	}
 }

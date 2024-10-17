@@ -1,6 +1,8 @@
 package com.example.demo.commonController;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +47,17 @@ public class FileController {
 		vo.setFileDetailId(fileDetailId);
 		
 		FileDetailVO file = fileService.selectFileByFileDetailId(vo);
+		// image/jpg image/jpeg image/png image/gif image/bmp
+		
+		List<String> imageList = Arrays.asList("image/jpg", "image/jpeg", "image/png", "image/gif", "image/bmp");
+		
+		boolean isImage = false;
+		for (String item : imageList) {
+			if (item.equals(file.getFileMiMe())) {
+				isImage = true;
+				break;
+			}
+		}
 		
 		// header + content
 		HttpHeaders httpHeaders = new HttpHeaders();
@@ -58,9 +71,16 @@ public class FileController {
 		 * ISO_8859_1 : 라틴문자
 		 */
 		
-		httpHeaders.add(httpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1) + "\"");
+		httpHeaders.add(httpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(file.getOrgFileName().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1) + "\"");
 		
-		httpHeaders.setContentType(MediaType.valueOf(file.getFileMiMe()));
+		// 이미지일 경우 화면에 출력
+		if (isImage) {
+			httpHeaders.setContentType(MediaType.valueOf(file.getFileMiMe()));
+		} else {
+			// 이미지가 아니면 다운로드
+			httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		}
+		
 		
 		// 디스크에서 실물 파일을 찾아서 header와 함께 리턴
 		Resource resource = fileService.loadAsResource(file.getFileLocation() + file.getFileName());
