@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.FileDetailMapper;
 import com.example.demo.mapper.FileMasterMapper;
+import com.example.demo.payload.response.ApiResponse;
 import com.example.demo.util.FileUtil;
 import com.example.demo.vo.FileDetailVO;
 import com.example.demo.vo.FileMasterVO;
@@ -71,7 +73,7 @@ public class FileService {
 		return fileMasterVO.getFileMstId();
 	}
 	
-	public void saveFile(MultipartFile file) {
+	public ApiResponse saveFile(MultipartFile file, Long fileMstId, String fileDest) {
 		// 용량, MIME, 파일명
 		log.info(String.valueOf(file.getSize()));
 		log.info(file.getContentType());
@@ -79,6 +81,11 @@ public class FileService {
 		
 		// 파일 존재 유무 체크
 		if (file.isEmpty()) throw new BadRequestException("파일이 없습니다.");
+		
+		// fileMstId가 없을 경우 예외처리
+		if (fileMstId.equals(0)) {
+			throw new BadRequestException("파일 마스터 번호가 없습니다.");
+		}
 		
 		String saveFileName = FileUtil.fileSave(rootLocation.toString(), file);	
 		// 리턴 받은 파일 경로에서 /yyyy/mm/dd/ 만 별도로 분리한다.
@@ -101,7 +108,7 @@ public class FileService {
 		
 		FileDetailVO fileDetailVO = FileDetailVO.builder()
 				.fileMiMe(file.getContentType())
-				.fileDest("111")
+				.fileDest(fileDest)
 				.fileLocation(fileDirString.toString())
 				.filePath(fullPathName)
 				.fileSize(file.getSize())
@@ -111,13 +118,15 @@ public class FileService {
 				.orgFileName(file.getOriginalFilename())
 				.regID("regID")
 				.updID("updID")
-				.fileMstId(1L)
+				.fileMstId(fileMstId)
 				.build();
 		
 		log.info(fileDetailVO.toString());
 		fileDetailMapper.insertDetailFile(fileDetailVO);
 		
 		log.info(String.valueOf(fileDetailVO.getFileDetailId()));
+		
+		return new ApiResponse(true, String.valueOf(fileDetailVO.getFileDetailId()));
 		
 	}
 	
@@ -131,6 +140,36 @@ public class FileService {
 				.orElseThrow(() -> new ResourceNotFoundException("첨부파일", "파일명", fileDetailVO.getFileDetailId()));
 		// super(String.format("%s에 해당하는 리소스를 찾을 수 없습니다. %s : '%s'", resourceName, fieldName, fieldValue));
 		
+	}
+	
+	/**
+	 * 파일 삭제
+	 * @param detailFileId
+	 */
+	public void fileDelete(Long detailFileId) {
+		Optional<FileDetailVO> result =  fileDetailMapper.detailFileExist(detailFileId);
+		// result가 있으면
+		if (result.isPresent()) {
+			if (result.get().getFilePath() != null) {
+				// FILE_PATH 값이 있으면 실물 파일과 데이터 row를 삭제한다.
+				File fileItem = new File(result.get().getFilePath());
+				if (fileItem.exists()) {
+					fileItem.delete();
+					fileDetailMapper.deleteFileByFileDetailId(detailFileId);
+				}
+			}
+		} else {
+			throw new ResourceNotFoundException("해당 데이터를 찾을 수 없습니다.");
+		}
+	}
+	
+	/**
+	 * FILE_DETAIL 테이블에서 FILE_MST_ID 기준으로 조회
+	 * @param fileMstId
+	 * @return
+	 */
+	public List<FileDetailVO> selectFileByMstId(Long fileMstId) {
+		return fileDetailMapper.selectFileByMstId(fileMstId);
 	}
 
 }

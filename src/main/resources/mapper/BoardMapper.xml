@@ -42,7 +42,9 @@
 	</select>
 	
 	<select id="selectOne" parameterType="Long" resultType="com.example.demo.vo.BoardVO">
-		SELECT * FROM BOARD WHERE IDX = #{idx}
+		SELECT A.*, B.* FROM BOARD A 
+		LEFT OUTER JOIN FILE_MASTER B ON A.FILE_MST_ID = B.FILE_MST_ID
+		WHERE A.IDX = #{idx}
 	</select>
 	
 	<!-- U: update -->

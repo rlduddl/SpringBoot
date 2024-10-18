@@ -10,7 +10,9 @@ import com.example.demo.exception.NotFoundException;
 import com.example.demo.mapper.BoardMapper;
 import com.example.demo.payload.response.ApiResponse;
 import com.example.demo.service.CrudService;
+import com.example.demo.service.FileService;
 import com.example.demo.vo.BoardVO;
+import com.example.demo.vo.FileMasterVO;
 import com.example.demo.vo.MemberVO;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardServiceImpl implements CrudService<BoardVO> {
 	
 	private BoardMapper boardMapper;
+	private FileService fileService;
 
 	@Override
 	public List<BoardVO> selectList(BoardVO e) {
@@ -37,6 +40,12 @@ public class BoardServiceImpl implements CrudService<BoardVO> {
 	
 	public BoardVO selectBoard(Long idx) {
 		BoardVO boardVO = boardMapper.selectOne(idx);
+		FileMasterVO fileMasterVO = new FileMasterVO();
+		fileMasterVO.setFileMstId(boardVO.getFileMstId());
+		fileMasterVO.setRegID(boardVO.getRegID());
+		fileMasterVO.setRegDate(boardVO.getRegDate());
+		fileMasterVO.setFileList(fileService.selectFileByMstId(boardVO.getFileMstId()));
+		boardVO.setFileMasterVO(fileMasterVO);
 		
 		if (boardVO == null) throw new NotFoundException("게시물을 찾을 수 없습니다.");
 		

@@ -8,14 +8,17 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.payload.response.ApiResponse;
 import com.example.demo.service.FileService;
 import com.example.demo.vo.FileDetailVO;
 
@@ -32,9 +35,10 @@ public class FileController {
 
 	@PostMapping("/save")
 	public ResponseEntity<?> fileSave(
-		@RequestParam(value = "file") MultipartFile file) {
-		fileService.saveFile(file);
-		return ResponseEntity.ok("1234");
+		@RequestParam(value = "file") MultipartFile file,
+		@RequestParam(value = "fileMstId", defaultValue = "0") Long fileMstId,
+		@RequestParam(value = "fileDest") String fileDest) {
+		return ResponseEntity.ok(fileService.saveFile(file, fileMstId, fileDest));
 	}
 	
 	@GetMapping("/viewById")
@@ -88,6 +92,17 @@ public class FileController {
 		log.info(resource.toString());
 		
 		return ResponseEntity.ok().headers(httpHeaders).body(resource);
+	}
+	
+	/**
+	 * 파일 삭제
+	 * @param fileDetailId
+	 * @return
+	 */
+	@DeleteMapping("/delete/{fileDetailId}")
+	public ResponseEntity<?> fileDelete(@PathVariable Long fileDetailId) {
+		fileService.fileDelete(fileDetailId);
+		return ResponseEntity.ok(new ApiResponse(true, "파일을 삭제했습니다."));
 	}
 	
 }

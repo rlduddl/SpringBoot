@@ -31,7 +31,7 @@ public class BoardVO {
 	private LocalDateTime updDate;
 	private Long fileMstId;
 	
-	
+	private FileMasterVO fileMasterVO;
 	
 	
 }
