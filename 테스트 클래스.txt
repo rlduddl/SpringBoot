@@ -1,0 +1,140 @@
+package com.example.demo;
+
+
+import org.apache.coyote.BadRequestException;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EmptySource;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import com.example.demo.vo.TestVO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class JunitTest {
+	
+	void BadClass(int num) throws BadRequestException {
+		if (num == 0) throw new BadRequestException("예외");
+	}
+	
+	@Test
+	void test() {
+		BadRequestException ex = Assertions.assertThrows(BadRequestException.class, () -> BadClass(0));
+		String msg = ex.getMessage();
+		Assertions.assertEquals("예외", msg);
+	}
+	
+	@Nested // 중첩 클래스 테스트
+	@TestInstance(Lifecycle.PER_CLASS) // 정적 메서드가 아니면 @TestInstance 어노테이션 필요
+	class nested {
+		@BeforeAll
+		void startNested() {
+			System.out.println("시작 전");
+		}
+		@Test
+		void pos() {
+			Assertions.assertTrue(1 > 0);
+		}
+	}
+	
+	
+	// 반복
+	@RepeatedTest(10)
+	void repeat() {
+		System.out.println("반복");
+	}
+	
+	boolean isEven(int num) {
+		return num % 2 == 0 ? true : false;
+	}
+	
+	@Test
+	@ParameterizedTest // 파라미터 테스트를 지원한다. 각각 다른 인자값을 호출해서 여러번 수행한다.
+	@ValueSource(ints = {1, 3, 4, -1, 10}) // 배열을 정의하고 파라미터를 테스트에 적용한다. 
+	void assertTest(int param) {
+		Assertions.assertTrue(isEven(param));
+	}
+	
+	@Test
+	@ParameterizedTest
+	@NullSource
+	@EmptySource
+	@ValueSource(strings = {"a", " ", "", "z"})
+	void assertTest2(String param) {
+		Assertions.assertTrue(param == null || param.isEmpty());
+	}
+	
+	@Test
+	void voTest() {
+		TestVO vo = new TestVO();
+		vo.setName("홍길동");
+		
+		//비교
+		Assertions.assertEquals("홍길동", vo.getName());
+	}
+	
+	@Test
+	void arrTest() {
+		char[] expected = {'s', 't', 'r', 'i', 'n', 'g'};
+		char[] actual = "string".toCharArray();
+		
+		Assertions.assertArrayEquals(expected, actual);
+	}
+	
+	@Test
+	void same() {
+		Object a = new Object();
+		Object b = new Object();
+		Assertions.assertNotSame(b, a);
+	}
+	
+	@Test
+	void trueFalse() {
+		Assertions.assertTrue(5 > 4, "5는 4보다 크다.");
+		Assertions.assertFalse(5 < 4, "5는 4보다 작다.");
+	}
+	
+	@Test
+	void all() {
+		// assertAll : 목록화한 내용의 true, false
+		Assertions.assertAll("assert all",
+			() -> Assertions.assertEquals(4, 2*2, "2*2 = 4"),
+			() -> Assertions.assertEquals("java", "JAVA".toLowerCase())
+				);
+	}
+	
+	
+	@Test
+	void test3() {
+		// 특정 조건이 true인지 테스트
+		// 첫번째 파라미터는 기대값
+		// 두번째 비교해야하는 값
+		Assertions.assertEquals(3, 3);
+		
+		// assertEquals : 객체 a가 b와 일치함
+		// assertArrayEquals : 배열 a가 b와 일치함
+		// assertTrue(a) : a가 true인지 확인
+		// assertFalse(a) : a가 false인지 확인
+		// assertSame(a, b) : 객체 a가 b와 일치함.
+		
+		//              assertEquals     : 객체의 값이 같은지
+		//              assertSame(a, b) : 객체의 레퍼런스 동일 여부를 판단
+		
+		// assertNotSame(a, b) : a와 b가 다른 객체인지 확인
+		// assertFail() : 테스트 실패 처리
+		// assertNull(a) :  a가 null인지 체크
+		// assertNotNull(a) : a가 not null인지 체크
+	}
+
+}
